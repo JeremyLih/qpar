@@ -1,0 +1,504 @@
+\documentclass{ieeeaccess}
+% Q-Par paper, typeset for IEEE Access from paper/v3/input/QML Paper.md (text unchanged except for
+% LaTeX-level changes listed in paper/v3/input/LATEX_STAGE_TASKS.md). Build: latexmk -pdf main.tex
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{array}
+
+\usepackage{bm}
+\makeatletter
+\AtBeginDocument{\DeclareMathVersion{bold}
+\SetSymbolFont{operators}{bold}{T1}{times}{b}{n}
+\SetSymbolFont{NewLetters}{bold}{T1}{times}{b}{it}
+\SetMathAlphabet{\mathrm}{bold}{T1}{times}{b}{n}
+\SetMathAlphabet{\mathit}{bold}{T1}{times}{b}{it}
+\SetMathAlphabet{\mathbf}{bold}{T1}{times}{b}{n}
+\SetMathAlphabet{\mathtt}{bold}{OT1}{pcr}{b}{n}
+\SetSymbolFont{symbols}{bold}{OMS}{cmsy}{b}{n}
+\renewcommand\boldmath{\@nomath\boldmath\mathversion{bold}}}
+\makeatother
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN-QNN Models under NISQ Constraints},
+  pdfauthor={Jeremy Li}}
+% ORCID iD icon: figures/orcid.pdf (drawn by the orcidlink package in a separate file; loading orcidlink
+% here would pull in xcolor, which cannot use the class's spot colour and hides blue headings).
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{-0.12em}{\includegraphics[height=0.82em]{figures/orcid.pdf}}}}
+\urlstyle{same}
+\newcommand{\refdoi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}} % DOIs in references.bib
+% The caption/heading math versions of ieeeaccess.cls take upright Greek capitals from a T1 text font,
+% where slot 1 is an accent (Delta printed as an acute); take Delta from Computer Modern instead.
+\DeclareSymbolFont{upgreek}{OT1}{cmr}{m}{n}
+\DeclareMathSymbol{\Delta}{\mathalpha}{upgreek}{"01}
+\newcommand{\QP}{\text{Q-Par}}                % Q-Par inside math
+\newcommand{\pdep}{p_{\mathrm{dep}}}           % depolarizing strength
+\newcommand{\Dcal}{\Delta_{\mathrm{cal}}}
+\setlength{\emergencystretch}{1.5em}           % fewer overfull lines in the narrow columns
+
+%Your document starts from here ___________________________________________________
+\begin{document}
+\bstctlcite{IEEEexample:BSTcontrol}
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2024.0429000}
+
+\title{Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN--QNN Models under NISQ Constraints}
+\author{\uppercase{Jeremy Li}\,\orcid{0009-0001-6344-8131}}
+
+\address{St. Michaels University School, Victoria, BC V8P 4P5, Canada (e-mail: jeremyli.ava@gmail.com)}
+
+\markboth
+{J. Li: Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN--QNN Models}
+{J. Li: Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN--QNN Models}
+
+\corresp{Corresponding author: Jeremy Li (e-mail: jeremyli.ava@gmail.com).}
+
+
+\begin{abstract}
+Hybrid convolutional--quantum neural network (CNN--QNN) models are usually compared by accuracy alone, although every design choice also changes the number of qubits, the gate count, and the inference latency that noisy intermediate-scale quantum (NISQ) hardware is short of. This paper introduces Q-Par (Quantum Performance-Adjusted Rating), a single-scalar metric with accuracy and stability across seeds in the numerator and the three resources, each normalized, with its own exponent, in the denominator. It is tested on 54 four-qubit configurations per dataset (placement, encoding, topology, training fraction) on MNIST and Fashion-MNIST with 5 seeds, against a plain CNN and a parameter-matched classical model, plus a qubit sweep from 2 to 8 and two noise models. The Q-Par ranking is unrelated to the accuracy ranking (Kendall $\tau = -0.06$ and $-0.05$) and is driven by the gate count, deciding 78 of 80 large rank moves; it is stable under exponents between 0.5 and 2 only because the gate count spans 2.29$\times$ while accuracy spans 1.16--1.19$\times$. Equal weights have a cost: a two-qubit model that is 10.5 percentage points less accurate scores 8.6 times higher, so an accuracy floor should be set before ranking. At 4 qubits no hybrid configuration beats the plain CNN beyond the seed spread; calibrated noise costs about 0.06 percentage points there, and robustness depends on where the quantum block is placed. No quantum advantage is claimed, and all experiments are simulated. Q-Par does not pick the best architecture; it makes the trade-off behind a design choice explicit and checkable.
+\end{abstract}
+
+\begin{keywords}
+Benchmarking, hybrid quantum--classical neural networks, NISQ, noise robustness, quantum machine learning, resource-aware metric.
+\end{keywords}
+
+\titlepgskip=-21pt
+
+\maketitle
+
+% =====================================================================================================
+\section{Introduction}
+\label{sec:intro}
+
+\PARstart{H}{ybrid} convolutional--quantum neural network (CNN--QNN) models are one of the most common forms of quantum machine learning (QML) in the noisy intermediate-scale quantum (NISQ) era \cite{preskill2018nisq,cerezo2021vqa}. The quantum block can be placed before, inside, or after the classical network, use angle or amplitude encoding, and take different entangling topologies and numbers of qubits \cite{cong2019qcnn,henderson2020quanvolutional,liu2021hybrid}. Every one of these choices changes the number of qubits, the gate count, and the inference latency, and these are the three resources that NISQ hardware is short of; hybrid models have run on real machines only with small qubit and gate counts \cite{arthur2022qce}.
+
+The usual way to evaluate these models is accuracy on a dataset such as MNIST, often from a single run and in simulation only. The quantum block is placed at the output head by default and the placement is rarely varied ([\citen{zaman2024comparative}] is an exception); encodings are studied on their own \cite{mattern2021vqnn,fan2023hybrid}, and so are topologies \cite{sim2019expressibility,hubregtsen2021evaluation}. A single run is not reliable: changing the train--test split alone can move accuracy by up to 14\% \cite{bowles2024better}, and quantum advantage is not the right target either \cite{schuld2022advantage}. The question of which design is worth its cost has not been answered, and accuracy alone cannot answer it, because the designs are nearly tied on these tasks (in this study, at most 1.4 percentage points (pp) apart on MNIST at full data, Section~\ref{sec:res-acc}).
+
+Composite indicators exist at the hardware level (Quantum Volume, CLOPS (circuit layer operations per second), SupermarQ \cite{cross2019qv,wack2021clops,tomesh2022supermarq}), but they contain no machine-learning (ML) accuracy. At the model level, QMetric \cite{illesova2025qmetric} is a dashboard of several indices rather than one score, and MDQ-3L \cite{mogaraju2026mdq3l} is a composite score, but it targets regression, has no cross-seed stability term, and is not peer-reviewed. Meanwhile, classical ML already reports accuracy and cost side by side \cite{reddi2020mlperf,schwartz2020greenai}. To the best of my knowledge, no published metric folds accuracy, cross-seed stability, and quantum resource cost into one score for hybrid CNN--QNN models.
+
+This paper proposes Q-Par (Quantum Performance-Adjusted Rating), which puts accuracy and stability across seeds in the numerator and the number of qubits, the gate count, and the inference latency (each divided by its maximum in the study) in the denominator; every term has its own exponent, and equal weights are the default. The metric is tested on 3 placements $\times$ 2 encodings $\times$ 3 topologies $\times$ 3 training fractions at $n = 4$, on two datasets with 5 seeds each, against a plain CNN (\texttt{base\_cnn}) and a parameter-matched classical model (\texttt{cnn\_matched}), with a qubit sweep from $n = 2$ to 8, a calibrated noise model (FakeAachen), and a depolarizing sweep; the training-fraction axis covers data-scarce scenarios \cite{he2025qgan}. This paper claims no quantum advantage and everything is simulated; Q-Par only answers which hybrid model to use if one is used at all.
+
+The contributions are: (1) the definition of Q-Par, its properties (it is linear in logarithms, its ranking does not depend on the normalization constants, and the influence of a term is its exponent times its logarithmic spread), and its scope (Section~\ref{sec:qpar}); (2) a controlled study of 168 configurations, 840 training runs, and 3,150 noisy evaluations, with a parameter-matched baseline, tests paired by seed, and public code and run records (Section~\ref{sec:design}); (3) the main findings (Sections~\ref{sec:results} and~\ref{sec:discussion}): the Q-Par ranking is unrelated to the accuracy ranking and is driven by $G$, its stability under the exponents comes from the difference in spans of the terms rather than from balanced weights, equal weights favour a less accurate model, there is no hybrid advantage, robustness depends mainly on the placement of the quantum block, and $G$ predicts noise damage only for large circuits; (4) a three-step guide for using the metric: look at the span of each term over the compared set to see which one will dominate, set an accuracy floor if one is needed, then apply Q-Par, and report the total score together with the five components.
+
+In numbers: $\tau(A, \QP)$ is $-0.058$ and $-0.051$ on the two datasets, and 78 of the 80 rank moves of at least 10 places are driven by $G$; at $n = 2$ the MNIST Post model is 10.5~pp less accurate yet scores 8.6$\times$ higher on Q-Par; in none of the 36 cells does the hybrid's mean accuracy exceed \texttt{base\_cnn}'s beyond the seed spread; and at $n = 4$ the calibrated noise model costs only about 0.06~pp. A term's influence on a composite ranking equals its exponent times its logarithmic spread, so any such metric should be reported together with the spread of each term.
+
+Section~\ref{sec:related} reviews related work, Section~\ref{sec:qpar} defines Q-Par, Section~\ref{sec:design} describes the experimental design, Section~\ref{sec:results} reports the results, Section~\ref{sec:discussion} discusses them, Section~\ref{sec:limitations} states the limitations and future work, and Section~\ref{sec:conclusion} concludes.
+
+% =====================================================================================================
+\section{Related Work}
+\label{sec:related}
+
+Four lines of prior work bear on this paper: the design of hybrid CNN--QNN architectures, metrics that fold resources into a score, the evaluation of hybrid models under noise, and benchmarks of hybrid against classical models. Each subsection ends with where this paper stands.
+
+\subsection{Hybrid CNN--QNN architectures: placement, encoding, and topology}
+\label{sec:rw-arch}
+
+The quantum convolutional neural network (QCNN) prototype was proposed in \cite{cong2019qcnn} and quanvolutional layers in \cite{henderson2020quanvolutional}; a general hybrid quantum--classical CNN (QCCNN) framework was given in \cite{liu2021hybrid}, and classical-to-quantum transfer learning in \cite{mari2020transfer}. A QCNN was tested on MNIST and Fashion-MNIST with five random initializations and the spread reported in \cite{hur2022qcnn}.
+
+The most common placement puts the quantum block at the output head \cite{ranga2024hybrid,ng2024lab,liu2024cqhnet}. Only a few works vary the position: \cite{zaman2024comparative} changes the number of layers, the number of qubits, and the placement at once (4-class MNIST, simulation only) and is the closest prior work; \cite{amadoun2026placement} compares a parameterized quantum circuit (PQC) used as a feature extractor against one used as the classifier on CIFAR-10; \cite{long2025qcq} tests a quantum--classical--quantum structure; and \cite{jain2026qufex} stresses that the position of the quantum module matters. None of them compares the three placements under one protocol with multiple seeds, a parameter-matched classical baseline, and a cost report at the same time.
+
+The encoding determines what functions the model can express \cite{schuld2021encoding}, and \cite{mattern2021vqnn} found no single best encoding. Amplitude encoding reduces the number of qubits needed \cite{fan2023hybrid} and usually performs better than angle encoding on images \cite{kabir2025lhqnn}; \cite{tudisco2026encoding} compares angle and amplitude encoding systematically. \cite{feng2025encoding} compares encoding strategies under depolarizing noise on MNIST and Fashion-MNIST, which is the closest setting to this paper; the difference is that it reports accuracy, while this paper folds cost in as well. The robustness of encodings to noise was studied in \cite{larose2020robust}, and the gate decomposition for amplitude state preparation comes from \cite{mottonen2005ucr}, which is how the encoding gates in $G$ are counted in this paper.
+
+For topology, \cite{sim2019expressibility} introduced the expressibility and entangling-capability descriptors, and \cite{hubregtsen2021evaluation} found that expressibility correlates with classification accuracy while entangling capability does not. Topology studies \cite{mordacci2025topologies,herbst2024hyperparameters,nakhl2024entanglement} show that full entanglement costs $O(Ln^2)$ gates for $L$ layers against $O(Ln)$ for linear or pairwise layouts and is not always beneficial. \cite{kashif2023unified} analyses the joint effect of encoding, expressibility, and entanglement on trainability.
+
+These works vary one axis at a time and report accuracy; this paper varies placement, encoding, and topology under one protocol and folds accuracy and cost into one score.
+
+\subsection{Resource-aware and composite metrics}
+\label{sec:rw-metrics}
+
+At the hardware level, Quantum Volume \cite{cross2019qv}, CLOPS \cite{wack2021clops}, SupermarQ \cite{tomesh2022supermarq}, and the application-oriented benchmarks of the Quantum Economic Development Consortium (QED-C) \cite{lubinski2023benchmarks} fold quality, speed, and resources into a few numbers, but they contain no ML accuracy and characterize hardware rather than models. The expressibility and entangling-capability descriptors of \cite{sim2019expressibility} describe a circuit on its own, so they are orthogonal to Q-Par and could complement it. QuantumNAS \cite{wang2022quantumnas} optimizes accuracy under noise while pruning gates, and the noise-aware architecture search NA-QAS \cite{li2026naqas} searches a Pareto front of expressibility against hardware overhead; both are objectives inside a search, not metrics for reporting and comparing finished models.
+
+At the model level, QMetric \cite{illesova2025qmetric} is a set of indices beyond accuracy (training stability, training efficiency, and others). It is a multi-dimensional dashboard rather than a single scalar, its stability index comes from the loss curves rather than from multiple seeds, and it has no resource term. MDQ-3L \cite{mogaraju2026mdq3l} folds min-max-normalized metrics into a weighted composite score and penalizes structural cost; it is the closest in spirit to Q-Par, but it targets regression on air-quality data, has no cross-seed stability term, and is a preprint that has not been peer-reviewed. In classical ML, MLPerf \cite{reddi2020mlperf} reports accuracy together with latency and throughput, and Green AI \cite{schwartz2020greenai} argues that cost should be reported alongside accuracy. \cite{lee2024optimizing} and \cite{arthur2022qce} treat qubit and gate counts as first-class costs, and the latter found that hybrid models run on real hardware only when both counts are small, which is the empirical basis for the penalty exponents $\gamma$ and $\varepsilon$.
+
+Q-Par differs from all of these in three ways: it is a single scalar with explicit exponents; it includes stability across seeds as a term of its own; and it is built for the post-hoc comparison of hybrid CNN--QNN configurations, together with the log-spread analysis of Section~\ref{sec:qpar-props} that says when such a score carries information.
+
+\subsection{Noise-aware evaluation of hybrid models}
+\label{sec:rw-noise}
+
+In the NISQ era \cite{preskill2018nisq}, variational algorithms \cite{cerezo2021vqa} face barren plateaus \cite{mcclean2018barren}, noise-induced barren plateaus \cite{wang2021noisebp}, and the need for error mitigation \cite{cai2023qem}. Hybrid models ran on IBM hardware only at small qubit and gate counts in \cite{arthur2022qce}, and a hybrid quantum neural network (HQNN) was evaluated on IBM hardware through the cloud in \cite{mittal2024localization}. Calibrated noise models and fake backends are used in \cite{wang2022quantumnas,kim2026depthstratified,mousavi2026trainingfree}, and the effect of noise on HQNN training is studied in \cite{kashif2024noise}. \cite{ahmed2025noisyhqnn} ranks HQNNs under multiple noise channels, but from single unseeded runs, which is one reason why 5 seeds are used in this paper; \cite{kim2026reliability} reports mean $\pm$ std and tests error mitigation. This paper evaluates every trained model under a calibrated noise model and a depolarizing sweep, at inference and with 5 seeds, and reports noise as a companion quantity next to Q-Par rather than as a term inside it.
+
+\subsection{Hybrid versus classical: benchmarks and variance}
+\label{sec:rw-classical}
+
+In benchmarks of hybrid against classical models, the classical models generally win \cite{bowles2024better}, and the same study warns, citing \cite{recht2019imagenet}, that changing the train--test split alone can move accuracy by as much as 14\%, so a single seed is not enough. Quantum advantage is argued to be the wrong goal for QML \cite{schuld2022advantage}; QCNNs can be simulated efficiently on classical computers \cite{bermejo2026simulable}; the computational advantage of HQNNs has been questioned \cite{kashif2025myth}; and on industrial image data no practical advantage was found \cite{basilewitsch2025practice}.
+
+On baseline practice, \cite{ajlouni2023hqcnn} compares a hybrid QCNN against a parameter-matched classical CNN; \cite{hur2022qcnn} reports five random initializations; \cite{domingo2023binding} shows a hybrid QCNN that cuts classical model complexity by about 20\% at the same accuracy; \cite{dinut2026fraud} reports the dispersion across seeds; and \cite{yu2026qcnnvqc} reports confidence intervals and non-parametric tests.
+
+This paper claims no quantum advantage. It uses 5 seeds, paired tests with effect sizes, and a parameter-matched classical baseline, and it points out that Q-Par is undefined for a classical model, so the classical baseline has to come before Q-Par.
+
+% =====================================================================================================
+\section{The Q-Par Metric}
+\label{sec:qpar}
+
+\subsection{Design goals}
+\label{sec:qpar-goals}
+
+The goal is to compare hybrid quantum--classical models of different designs by compressing accuracy and resource cost into a single scalar, so that a set of configurations can be ranked directly. To do so, Q-Par (Quantum Performance-Adjusted Rating) rewards accuracy and stability across seeds, while penalizing three resources: the number of qubits, the gate count, and the measured inference latency. Every resource term is divided by its maximum in the compared set, so the metric is dimensionless, and each term carries its own exponent, so the trade-off is explicit and adjustable rather than hidden in the formula.
+
+\subsection{Definition}
+\label{sec:qpar-def}
+
+\begin{equation}
+\QP = \frac{A^{\alpha}\cdot(1-\sigma_a)^{\beta}}{(Q/Q_{\max})^{\gamma}\cdot(D/D_{\max})^{\delta}\cdot(G/G_{\max})^{\varepsilon}}
+\label{eq:qpar}
+\end{equation}
+
+\noindent Where:
+\begin{IEEEdescription}[\IEEEsetlabelwidth{$\sigma_a$}\IEEEusemathlabelsep]
+\item[$A$] Noiseless classification accuracy on the full test set, averaged over the 5 seeds; $A \in (0, 1]$.
+\item[$\sigma_a$] Sample standard deviation of $A$ over the 5 seeds of the same configuration, so it measures reproducibility; $1-\sigma_a \in (0, 1]$.
+\item[$Q$] Number of qubits, normalized by $Q_{\max}$.
+\item[$D$] Per-image inference latency in ms, normalized by the maximum observed value $D_{\max}$.
+\item[$G$] Gate count of the quantum block after decomposition to \{RX, RY, RZ, CNOT\}, encoding gates included, normalized by $G_{\max}$.
+\item[\rlap{$\alpha, \beta, \gamma, \delta, \varepsilon$}] \mbox{}\\ Tunable exponents controlling the weight of each factor, all equal to 1 by default. Every main result uses equal weights; other settings appear only in the sensitivity analysis of Section~\ref{sec:res-sens}. $Q_{\max}$, $D_{\max}$, and $G_{\max}$ are the maxima over all hybrid configurations of a dataset (the 63 of the main grid and the qubit sweep in this study); their values are given in Section~\ref{sec:design-measured}.
+\end{IEEEdescription}
+
+\subsection{Why these terms}
+\label{sec:qpar-why}
+
+In the formula, I use multiplication rather than addition. A weighted sum requires the terms to share a unit and the weights to carry units; the multiplicative form becomes a linear combination once logarithms are taken, and each exponent is then an elasticity: if $G$ changes by 1\%, Q-Par changes by $-\varepsilon$\%.
+
+$A$ and $\sigma_a$ are kept separate because $A$ measures performance and $\sigma_a$ measures reproducibility: in the NISQ era, hybrid models are sensitive to initialization and to the data subset, and a configuration that performs well on only one seed should not receive a high score. I use $1-\sigma_a$ rather than $1/\sigma_a$ because it stays bounded and does not blow up as $\sigma_a \to 0$.
+
+$Q$ is the scarcest resource on hardware, and it also sets the exponential growth of simulation cost, since the state vector has $2^n$ entries. $G$ is a static, hardware-agnostic measure of circuit size, counted in a standard gate basis. Encoding gates are included because state preparation is a real cost: the M\"ott\"onen circuit for amplitude encoding needs $2^n-1$ RY, $2^n-1$ RZ, and $2(2^n-2)$ CNOT gates, which grows exponentially with $n$, and leaving them out would understate the cost of amplitude encoding and so overstate its Q-Par. $D$ captures costs that $G$ cannot, such as the simulator's native state preparation and the overhead of the classical layers. $D$ and $G$ are two different proxies for cost, and Section~\ref{sec:res-latency} shows that they diverge for amplitude encoding. $Q$ is normalized as well so that the three resource ratios all lie in $(0, 1]$ and sit on the same scale under equal weights.
+
+\subsection{Properties}
+\label{sec:qpar-props}
+
+In logarithms, Q-Par is linear:
+\begin{equation}
+\begin{split}
+\ln \QP ={}& \alpha\ln A + \beta\ln(1-\sigma_a) - \gamma\ln(Q/Q_{\max})\\
+&- \delta\ln(D/D_{\max}) - \varepsilon\ln(G/G_{\max}).
+\end{split}
+\label{eq:logqpar}
+\end{equation}
+It increases with $A$ and decreases with $\sigma_a$, $Q$, $D$, and $G$. The ranking does not depend on the normalization constants $Q_{\max}$, $D_{\max}$, and $G_{\max}$: within one dataset they are the same for every configuration, so they only rescale Q-Par and leave the order unchanged. What they fix is the scale of the values (each resource ratio is at most 1, so $\QP \geq A(1-\sigma_a)$), which also means that absolute Q-Par values are not comparable across datasets with different maxima.
+
+The effective influence of a term on the ranking is its exponent times its log-spread $\ln(\max/\min)$ over the compared set. Two configurations $i$ and $j$ are ordered by comparing $\alpha\ln(A_i/A_j) + \beta\ln((1-\sigma_i)/(1-\sigma_j))$ with $\gamma\ln(Q_i/Q_j) + \delta\ln(D_i/D_j) + \varepsilon\ln(G_i/G_j)$. In this study (Section~\ref{sec:res-rank}), $G$ spans a factor of 2.29 across the main grid while $A$ spans only 1.16 on MNIST and 1.19 on Fashion-MNIST; under equal weights, a configuration with 2.29 times the gate count would need 2.29 times the accuracy to compensate, which is impossible here, since every $A$ is at least 0.75. This is why $G$ drives the ranking in Section~\ref{sec:res-rank}, and why the ranking stays stable when any exponent is varied within 0.5--2 in Section~\ref{sec:res-sens}. The exponent that would balance the two terms is $\alpha^* = \ln 2.29 / \ln 1.16 \approx 5.6$ on MNIST and $\approx 4.9$ on Fashion-MNIST (from the unrounded spreads), far outside the tested range.
+
+\subsection{Scope}
+\label{sec:qpar-scope}
+
+Q-Par is designed to compare the cost--performance of hybrid models with one another; it is not a measure of quantum advantage and does not compare classical models with quantum ones. It is undefined for a purely classical model ($Q = G = 0$), so the classical baselines are compared by accuracy alone in Section~\ref{sec:res-base}. The metric also leaves out training cost, energy, the number of shots, and noise robustness; the noise effects are reported separately ($\Dcal$ and the depolarizing sweep, Section~\ref{sec:res-noise}) rather than folded into the formula. $D$ is platform-dependent: in this study it is the simulation latency on an Apple M3 Pro, and on real hardware it would track $G$ (Section~\ref{sec:res-latency}). Equal weights are the default here, not a recommendation. Users should adjust the exponents to their deployment scenario, and Section~\ref{sec:res-sens} shows how much the ranking changes when they do.
+
+By combining these terms into a single value, Q-Par puts hybrid CNN--QNN configurations on one resource-aware scale. I report Q-Par alongside its five components in Section~\ref{sec:results}, so that both the aggregate score and the term that drives it can be read off.
+
+% =====================================================================================================
+\section{Experimental Design}
+\label{sec:design}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1.pdf}
+\caption{Hybrid CNN--QNN architecture. (a)~The LeNet backbone and the three placements of the quantum block $\mathrm{QB}(d_{\mathrm{in}}\rightarrow n)$. Pre applies the block to the flattened input image and adds its expanded output back to the image as a residual, Middle replaces fc1, and Post replaces fc2; a linear layer follows the block in each case. (b)~The quantum block: a linear projection to $k$ inputs ($k = n$ for angle and $2^n$ for amplitude encoding), angle or amplitude encoding, $L = 3$ variational layers of a Rot gate on every qubit followed by the CNOTs of the topology, and a $Z$ measurement of every qubit at the end, giving $n$ outputs. (c)~The three topologies at $n = 4$, with the number of CNOTs per variational layer.}
+\label{fig:arch}
+\end{figure*}
+
+\subsection{Datasets and splits}
+\label{sec:design-data}
+
+I used two datasets, MNIST \cite{lecun1998gradient,deng2012mnist} and Fashion-MNIST \cite{xiao2017fashionmnist}. Each provides 60,000 training and 10,000 test images ($28\times28$ grayscale, 10 classes), loaded via torchvision \cite{paszke2019pytorch}. Pixels were scaled to $[0, 1]$ and then normalized with each dataset's standard mean and standard deviation (MNIST 0.1307/0.3081; Fashion-MNIST 0.2860/0.3530). No augmentation was used.
+
+The validation set contained 5,000 images, drawn once with a fixed seed and stratified by class, and it was identical for all runs of a dataset. The remaining 55,000 images formed the training pool. To make training-set size a design variable, each configuration was trained on 20\%, 50\%, or 100\% of the pool (11,000, 27,500, or 55,000 images). Each subset was stratified to match the source class proportions and drawn with the run seed, so each seed saw a different subset; at 100\% the seeds differed only in initialization and batch order. This way the spread across seeds also includes data-sampling variance.
+
+The full 10,000-image test set was used once per trained model. For the noisy evaluations, a stratified 2,000-image subset of the test set, drawn with a fixed seed, was shared by every model and condition.
+
+\subsection{Architectures}
+\label{sec:design-arch}
+
+The classical backbone was a LeNet-class CNN \cite{lecun1998gradient} (Fig.~\ref{fig:arch}): conv($1\rightarrow8$, 5) $\rightarrow$ ReLU $\rightarrow$ pool $\rightarrow$ conv($8\rightarrow16$, 5) $\rightarrow$ ReLU $\rightarrow$ pool $\rightarrow$ flatten (256) $\rightarrow$ fc1($256\rightarrow32$) $\rightarrow$ ReLU $\rightarrow$ fc2($32\rightarrow10$), with 11,978 trainable parameters. I chose it because its accuracy is not saturated, so differences from the placement and encoding of the quantum block stay visible. All main-grid models use $n = 4$ qubits; the qubit sweep (Section~\ref{sec:design-matrix}) uses $n = 2$, 6, and 8.
+
+The quantum block first projects its input to $k$ dimensions with a linear layer, where $k = n$ for angle encoding and $k = 2^n$ for amplitude encoding (4 and 16 at $n = 4$). Three variational layers ($L = 3$) follow; each layer applies a Rot gate with three trainable parameters to every qubit, then the CNOTs of the chosen topology, giving $3nL$ quantum parameters (36 at $n = 4$). Finally, each qubit is measured in $Z$, and the $n$ expectation values $\langle Z\rangle$ are the outputs of the block.
+
+Writing $\mathrm{QB}(d_{\mathrm{in}}\rightarrow n)$ for a quantum block with input dimension $d_{\mathrm{in}}$, the three placements are: Pre, where $\mathrm{QB}(784\rightarrow n)$ acts on the flattened image, its outputs are expanded by Linear($n$, 784), reshaped to $28\times28$, and added to the original image as a residual, after which the CNN runs unchanged. Middle, where the quantum block replaces fc1: $\mathrm{QB}(256\rightarrow n)$ $\rightarrow$ Linear($n$, 32) $\rightarrow$ ReLU $\rightarrow$ fc2. And Post, where it replaces fc2: $\mathrm{QB}(32\rightarrow n)$ $\rightarrow$ Linear($n$, 10). At $n = 4$, the total parameter counts (angle/amplitude) are Pre 19,074/28,494, Middle 4,978/8,062, and Post 11,866/12,262. No dropout or batch normalization was used anywhere.
+
+\subsection{Encodings and topologies}
+\label{sec:design-topo}
+
+Two encodings were compared. Angle encoding applies RY($z_i$) on qubit $i$ with $z = \pi\cdot\tanh(Wx)$, where $Wx$ is the output of the linear projection. Amplitude encoding L2-normalizes the $2^n$ projected values and loads them as the state amplitudes (\texttt{AmplitudeEmbedding}); a constant of $10^{-8}$ is added to the first component to avoid the zero vector.
+
+Three entangling topologies were tested. Linear connects neighbouring qubits with $n-1$ CNOTs; FullyConnected connects every pair with $n(n-1)/2$ CNOTs; Random uses $n-1$ CNOTs on random edges, so that it has the same gate count as Linear and only the structure differs. The random edges were drawn once per qubit count with seed 2026 and fixed for all runs. The first draw at $n = 4$ coincided with the Linear chain, so a redraw rule (redraw if the draw equals the Linear chain) was added before the main runs; the redrawn graph at $n = 4$ is the star $\{(0,1), (0,2), (0,3)\}$, and at $n = 6$ and 8 the first draw was kept. Edge lists for $n = 6$ and 8 are given in the appendix. At these two sizes the random graph is not connected: one qubit (qubit 4 at $n = 6$, qubit 6 at $n = 8$) receives no CNOT in the variational layers, although amplitude encoding still entangles it; this concerns the MNIST Middle and Post sweep models, which use the Random topology.
+
+\subsection{Classical baselines}
+\label{sec:design-baselines}
+
+Two classical baselines were used. The first, \texttt{base\_cnn}, is the backbone CNN on its own, as a plain classical reference. The second, \texttt{cnn\_matched}, is built for each placement and encoding by replacing the quantum part (encoding, circuit, and readout, 36 parameters) with a classical map from $k$ to $n$ whose parameter count is closest to 36, chosen among Linear($k$, $n$) with or without bias and two-layer multilayer perceptrons (MLPs) with 1 to 3 hidden units. The selected maps have 3 hidden units (31 parameters) for angle and 2 (46 parameters) for amplitude, so the total-model difference is at most 0.124\%. One caveat: the matched map's hidden width of 2 or 3 is narrower than the quantum block's 4 outputs. Both baselines were trained with the identical protocol below.
+
+\subsection{Training protocol}
+\label{sec:design-training}
+
+The training protocol used cross-entropy loss and the Adam optimizer \cite{kingma2015adam} with a learning rate of $10^{-3}$, batch size 64, and 15 epochs fixed with no early stopping, keeping the checkpoint with the best validation accuracy. Every configuration was run with 5 seeds (0--4), which control the initialization, the training-subset draw, and the batch order.
+
+The simulator used PennyLane \cite{bergholm2018pennylane} \texttt{lightning.\allowbreak qubit}, adjoint differentiation, analytic expectation values. The circuit inputs were cast to float64, because float32 produced non-finite gradients in the M\"ott\"onen decomposition of amplitude encoding for about 1.6\% of samples at $n = 8$. Any optimizer step with a non-finite gradient was skipped and logged; this happened 47 times in 35 of the 840 runs, all with amplitude encoding. As a convergence statistic, epochs-to-threshold is the first epoch at which validation accuracy reached 0.95 (MNIST) or 0.80 (Fashion-MNIST).
+
+\subsection{Evaluation conditions}
+\label{sec:design-eval}
+
+Every trained hybrid model was evaluated under three conditions; the classical baselines only under the first. The first is noiseless: analytic expectation values on the full 10,000-image test set, which gives the accuracy $A$ used in Q-Par.
+
+The second is a calibrated device noise model, built with \texttt{NoiseModel.from\_backend} from the IBM Heron r3 fake backend FakeAachen (156 qubits, calibration of 2026-04-17), which includes gate errors, thermal relaxation, and readout errors. Each architecture was transpiled once to the backend's basis gates (optimization level 1) and run on Qiskit Aer \cite{javadiabhari2024qiskit} with 1,024 shots; the classical layers ran unchanged. I report the accuracy drop $\Dcal$, the noiseless accuracy on the 2,000-image subset minus the accuracy under the noise model.
+
+The third is a depolarizing sweep: a single-qubit depolarizing channel of strength $\pdep$ (PennyLane \texttt{Depolarizing\allowbreak Channel} convention) after every single-qubit gate, encoding gates included, and a channel of strength $10\pdep$ on each qubit of every CNOT, for $\pdep \in \{0.001, 0.005, 0.01, 0.02\}$. It was computed exactly with the Qiskit Aer density-matrix method, using \texttt{depolarizing\_error}($4\pdep/3$), which is the same channel in Aer's parametrization; the two simulators agree to within $10^{-9}$. Both noisy conditions are inference-only on the 2,000-image subset; no model was retrained.
+
+\subsection{Measured quantities}
+\label{sec:design-measured}
+
+Five quantities enter Q-Par. $A$ is the test accuracy, averaged over the 5 seeds. $\sigma_a$ is the sample standard deviation of $A$ over the seeds. $Q$ is the number of qubits. $G$ is the gate count of the quantum block after decomposition to \{RX, RY, RZ, CNOT\} (a Rot counts as 3 gates), including the encoding gates (for amplitude: $2^n-1$ RY $+$ $2^n-1$ RZ $+$ $2(2^n-2)$ CNOT); at $n = 4$, $G$ is 49 or 58 for angle and 103 or 112 for amplitude.
+
+$D$ is the per-image inference latency, measured on an Apple M3 Pro with one thread and batch size 1, as the median over 200 test images after 20 warm-up images, using the seed-0 checkpoint of each configuration. The machine was not idle during these measurements (load average about 4), which is part of the 1.1--10.6\% repeatability reported in Section~\ref{sec:res-latency}. The normalization constants are $Q_{\max} = 8$, and $D_{\max}$ and $G_{\max}$ are the maxima over each dataset's 63 hybrid configurations (MNIST 4.046~ms / 1,111; Fashion-MNIST 3.928~ms / 1,174).
+
+\input{tables/tab01_design}
+
+\subsection{Design matrix and statistics}
+\label{sec:design-matrix}
+
+The main grid is 3 placements $\times$ 2 encodings $\times$ 3 topologies $\times$ 3 training fractions $= 54$ configurations per dataset (Table~\ref{tab:design}), all at $n = 4$ and with 5 seeds (270 runs per dataset).
+
+The baselines add \texttt{base\_cnn} $\times$ 3 training fractions $+$ \texttt{cnn\_matched} $\times$ $6 \times 3 = 21$ configurations $\times$ 5 seeds. The qubit sweep retrains the best configuration per placement, chosen by mean best-validation accuracy at the full training fraction (test accuracy was never used for selection), at $n \in \{2, 6, 8\}$ with 5 seeds. In total there are 168 configurations, 840 training runs, and 3,150 noisy evaluations.
+
+All reported values are means with standard deviations or 95\% confidence intervals over seeds; hybrid versus \texttt{cnn\_matched} comparisons are paired by seed, with the hybrid's accuracy taken as the mean over its three topologies for each seed (paired $t$-test, exact Wilcoxon signed-rank test, and Cohen's $d_z$; $p$-values unadjusted for multiple comparisons); rank agreement uses Kendall's $\tau_b$, and the noise correlations use Spearman's $\rho$. Configurations are written placement/encoding/topology/training fraction, for example Pre/Ang/FC/1.0, with Mid = Middle, Ang = angle, Amp = amplitude, Lin = Linear, FC = FullyConnected, and Rnd = Random.
+
+\subsection{Compute and reproducibility}
+\label{sec:design-compute}
+
+All training and noisy evaluation ran on 12 Lambda \texttt{gpu\_1x\_a10} instances (Intel Xeon 8358, one single-threaded worker per core; the GPUs were unused), for 85 instance-hours and 33.6~h of wall-clock time, at US\$109.64 (US\$110.37 including a separate set-up instance). Latency measurement and analysis ran on the M3 Pro. The environment was Python 3.11, torch 2.14.0, PennyLane 0.45.1, lightning 0.45.0, Qiskit 2.5.2, Aer 0.17.2, and qiskit-ibm-runtime 0.50.0, with a pinned lockfile. Every run is defined by a config file and a seed and writes its own record, and the whole study can be reproduced with one command; the code, configurations, run records, tables, and figures will be released.
+
+% =====================================================================================================
+\section{Results}
+\label{sec:results}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig2.pdf}
+\caption{Each panel is one dataset: MNIST on the left and Fashion-MNIST on the right. The axes are test accuracy $A$ (\%) versus training fraction (20, 50, and 100\% of the training pool). Filled markers with solid lines are the best hybrid per placement, open markers with dashed lines, its parameter-matched \texttt{cnn\_matched} model, and diamonds with a dotted line \texttt{base\_cnn}. The error bars are $\pm$1 standard deviation over 5 seeds. These are the models of Table~\ref{tab:baselines}, not all 54 configurations.}
+\label{fig:trainfrac}
+\end{figure*}
+
+\input{tables/tab02_mnist}
+\input{tables/tab03_fashionmnist}
+
+\subsection{Accuracy across the design space}
+\label{sec:res-acc}
+
+At full training data, the 18 configurations of each dataset are almost tied (Table~\ref{tab:mnist_tf1}, Table~\ref{tab:fashionmnist_tf1}): MNIST ranges from 97.56 to 98.97\% and Fashion-MNIST from 87.04 to 89.36\%, so the combined effect of placement and encoding is at most 1.4~pp on MNIST and 2.3~pp on Fashion-MNIST. Amplitude encoding has a slight accuracy advantage over angle, and topology has almost no effect. The standard deviation across seeds at full data is 0.05--0.30~pp on MNIST and 0.12--0.58~pp on Fashion-MNIST.
+
+The differences appear with less training data (Fig.~\ref{fig:trainfrac}): at 20\% of the data, the Post hybrid of Table~\ref{tab:baselines} (the best per placement by validation accuracy) falls to $94.01 \pm 5.55$\% on MNIST and $84.38 \pm 1.58$\% on Fashion-MNIST, with a large spread across seeds, while Middle stays close to Pre. Pre tracks \texttt{base\_cnn} at every training fraction.
+
+\input{tables/tab04_baselines}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig3.pdf}
+\caption{Rank by equal-weight Q-Par versus rank by accuracy $A$ for the 54 main-grid configurations, MNIST on the left and Fashion-MNIST on the right; the marker shows the placement. The diagonal is where the two rankings agree (Kendall $\tau = -0.058$ / $-0.051$), and the farther a point is from it, the larger its rank shift between the two metrics. The shaded band marks rank changes of fewer than 10 places; the numbered points move by at least 10 and are listed with their drivers in Table~S1.}
+\label{fig:rankrank}
+\end{figure*}
+
+\subsection{Q-Par ranking versus accuracy ranking}
+\label{sec:res-rank}
+
+The ranking by Q-Par is unrelated to the ranking by accuracy (Fig.~\ref{fig:rankrank}): Kendall $\tau(A, \QP)$ is $-0.058$ on MNIST ($p = 0.54$) and $-0.051$ on Fashion-MNIST ($p = 0.59$). Of the configurations whose rank moves by at least 10 places (39 on MNIST, 41 on Fashion-MNIST, 80 in total; Table~S1), 78 are driven by $G$ and only 2 by $D$ (MNIST Pre/Ang/FC/1.0, $-17$; Fashion-MNIST Pre/Ang/FC/0.5, $-11$).
+
+Every configuration that rises by at least 10 places uses angle encoding ($G = 49$ or 58); every one that falls by at least 10 places uses amplitude encoding ($G = 103$ or 112) or the FullyConnected topology ($G = 58$). The largest rise on MNIST is $+36$, shared by Post/Ang/Lin/0.2 (from rank 54 by accuracy to 18 by Q-Par, $A = 85.31$\%, Table~S4) and Post/Ang/Rnd/0.2 (from 53 to 17), and on Fashion-MNIST it is Mid/Ang/Lin/0.2, from 50 to 10 ($+40$, $A = 83.02$\%, Table~S4). The largest fall is Post/Amp/FC/1.0 on MNIST, from 1 to 47 ($-46$, $A = 98.97$\%), and Pre/Amp/FC/1.0 on Fashion-MNIST, from 1 to 48 ($-47$, $A = 89.36$\%).
+
+The top five by equal-weight Q-Par are all angle configurations with $G = 49$: on MNIST Pre/Ang/Rnd, Post/Ang/Rnd, Pre/Ang/Lin, Post/Ang/Lin (all at 100\% data) and Pre/Ang/Rnd/0.5; on Fashion-MNIST Post/Ang/Rnd, Post/Ang/Lin, Mid/Ang/Rnd, Mid/Ang/Lin (all at 100\%) and Mid/Ang/Rnd/0.5. The top five by accuracy are, on MNIST, Post/Amp/FC, Pre/Ang/Rnd, Post/Amp/Rnd, Pre/Ang/Lin, and Pre/Ang/FC (within 0.07~pp of each other; two of them overlap with the Q-Par top five), and on Fashion-MNIST all amplitude configurations, with no overlap at all. The reason is the spread of the terms: across the 54 configurations of each dataset, $A$ varies by a factor of 1.16 on MNIST (85.31--98.97\%) and 1.19 on Fashion-MNIST (75.37--89.36\%, Table~S4), while $G$ varies by 2.29 (49--112), so under equal weights the term with the larger spread drives the ranking.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig4.pdf}
+\caption{Kendall $\tau$ between the equal-weight Q-Par ranking of the 54 main-grid configurations and the ranking under each exponent setting of Table~\ref{tab:sensitivity}, for both datasets; all values lie between 0.947 and 1.000 (Table~\ref{tab:sensitivity}). The $\gamma$ rows are 1.00 by construction, because every main-grid configuration has $n = 4$ (Table~S2 repeats the analysis where $Q$ varies).}
+\label{fig:sens}
+\end{figure}
+
+\input{tables/tab05_sensitivity}
+
+\subsection{Sensitivity to the weights}
+\label{sec:res-sens}
+
+I then tested whether the Q-Par ranking changes when the exponents are adjusted. The ranking of the 54 configurations was recomputed under 13 settings besides equal weights, one exponent at 0.5 or 2 with the others at 1 (10 settings) plus three presets, and compared with the equal-weight ranking by Kendall $\tau$ (Fig.~\ref{fig:sens}, Table~\ref{tab:sensitivity}). $\tau$ stays within 0.947--1.000 on MNIST and 0.951--1.000 on Fashion-MNIST. The lowest values come from $\delta = 0.5$ (0.947 / 0.951), and even $\alpha = 2$ (accuracy-first) gives 0.948 / 0.954. $\gamma = 0.5$, $\gamma = 2$, $\varepsilon = 2$, and resource-first all give $\tau = 1.000$, for two different reasons: $\gamma$ is inert by construction, since all 54 configurations use 4 qubits and $Q/Q_{\max}$ is the same constant for every one of them, while $\varepsilon = 2$ only amplifies $G$, which already drives the ranking.
+
+The first place changes only within the equal-weight top three: on MNIST from Pre/Ang/Rnd/1.0 to Post/Ang/Rnd/1.0, the second (under $\alpha = 0.5$, $\beta = 0.5$, $\delta = 2$, and latency-first), and on Fashion-MNIST from Post/Ang/Rnd/1.0 to Mid/Ang/Rnd/1.0, the third (under $\alpha = 0.5$, $\delta = 2$, and latency-first); the top five never change by more than one member.
+
+Because $\gamma$ cannot act on the main grid, I repeated the analysis on the 27 configurations at full training data (the 18 of the main grid plus the 9 of the qubit sweep), where $Q$ varies from 2 to 8 (Table~S2). $\tau$ is $\geq 0.977$ for every setting, and $\gamma$ still gives $\tau = 1.000$, because $G$ and $D$ grow together with $Q$. Under every setting the top three are the three $n = 2$ configurations. In short, the ranking is stable not because the weights are balanced but because no exponent in the 0.5--2 range brings the 1.16--1.19$\times$ spread of $A$ up to the 2.29$\times$ spread of $G$.
+
+\subsection{Classical baselines}
+\label{sec:res-base}
+
+In none of the 36 cells (dataset $\times$ placement $\times$ encoding $\times$ training fraction, with the hybrid's accuracy averaged over its three topologies as in Table~S3) does the hybrid's mean accuracy exceed \texttt{base\_cnn}'s beyond the seed spread: the difference is between 0.00 and $-10.60$~pp on MNIST (the 0.00 is shared by Pre/Ang and Post/Amp at 100\% data) and between $-0.07$ and $-8.62$~pp on Fashion-MNIST (Table~\ref{tab:baselines}, Table~S3). The best individual configurations are tied within the seed spread: on MNIST, Post/Amp/FC at $98.97 \pm 0.10$\% and Post/Amp/Rnd at $98.93 \pm 0.07$\% versus \texttt{base\_cnn} at $98.92 \pm 0.04$\% (Table~\ref{tab:mnist_tf1}, Table~\ref{tab:baselines}); on Fashion-MNIST, Pre/Amp/FC at $89.36 \pm 0.20$\% and Pre/Amp/Lin at $89.29 \pm 0.33$\% versus $89.31 \pm 0.21$\% (Table~\ref{tab:fashionmnist_tf1}, Table~\ref{tab:baselines}).
+
+Against \texttt{cnn\_matched}, paired by seed (Table~S3), the hybrid is significantly higher in 12 cells ($+0.6$ to $+5.6$~pp, paired $t$-test $p < 0.05$, unadjusted), lower in 2 (MNIST Pre/Amp at 50\%, $-0.26$~pp; Post/Ang at 100\%, $-0.23$~pp), and tied in 22. Eleven of the 12 wins use amplitude encoding, all 12 are at the Middle and Post placements, and they occur at every training fraction, with the largest gains at 20\% data ($+3.3$ to $+5.6$~pp); the effect sizes are large ($d_z$ of 3--8 in 10 of the 12 cells). Because the exact Wilcoxon test cannot go below $p = 0.0625$ with 5 seeds, I rely on the paired $t$-test and $d_z$.
+
+For instance, for the Table~\ref{tab:baselines} hybrids shown in Fig.~\ref{fig:trainfrac}, MNIST Middle at 20\% data reaches $97.90 \pm 0.17$\% against $92.44 \pm 0.92$\% for its matched model; Fashion-MNIST Post at 20\% reaches $84.38 \pm 1.58$\% against $78.63 \pm 3.63$\%; and Fashion-MNIST Middle at 100\% reaches $89.01 \pm 0.16$\% against $86.31 \pm 0.47$\%. However, MNIST Post at 20\% goes the other way: the hybrid, at $94.01 \pm 5.55$\%, is below its matched model at $94.51 \pm 3.77$\%, within the seed spread. One caveat applies to all of these comparisons: the matched map has a hidden width of 2 or 3, narrower than the quantum block's 4 outputs, so part of the hybrid's advantage may come from a wider bottleneck rather than from the quantum circuit itself.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig5.pdf}
+\caption{Qubit sweep for the best configuration per placement at training fraction 1.0 (Table~\ref{tab:sweep}). The $x$-axis of every panel is the number of qubits $n = 2$, 4, 6, 8; the columns are test accuracy $A$ (error bars $\pm$1 std over seeds), latency $D$, gate count $G$, and equal-weight Q-Par, the last three on log scales. The top row is MNIST and the bottom row Fashion-MNIST; each line is one placement.}
+\label{fig:sweep}
+\end{figure*}
+
+\input{tables/tab06_sweep}
+
+\subsection{Qubit sweep}
+\label{sec:res-sweep}
+
+In the qubit sweep (Fig.~\ref{fig:sweep}, Table~\ref{tab:sweep}), accuracy is flat for $n \geq 4$: $n = 4$, 6, and 8 differ by at most 0.7~pp (MNIST Middle $98.67 \rightarrow 98.97 \rightarrow 99.01$\%; Fashion-MNIST Middle $89.01 \rightarrow 89.50 \rightarrow 89.69$\%). Meanwhile the cost rises steeply: for amplitude encoding $G$ goes from 103 to 319 to 1,111 on MNIST Middle (Random, 10.8$\times$) and from 112 to 349 to 1,174 on Fashion-MNIST Middle (FullyConnected, 10.5$\times$), and $D$ from 1.37 to 2.25~ms on MNIST Middle (1.6$\times$) and from 1.58 to 3.93~ms on Fashion-MNIST Middle (2.5$\times$).
+
+At $n = 2$, Middle and Post collapse while Pre does not: on MNIST, Middle $96.62 \pm 0.40$\%, Post $88.43 \pm 2.81$\%, Pre $98.92 \pm 0.08$\%; on Fashion-MNIST, Middle $85.93 \pm 0.49$\%, Post $79.19 \pm 2.24$\%, Pre $88.77 \pm 0.14$\%. At Post, the bottleneck is capacity: two $\langle Z\rangle$ values feed Linear(2, 10), and ten classes cannot be separated from two numbers.
+
+Equal-weight Q-Par falls monotonically from $n = 2$ to 8: MNIST Pre from 919 to 6.69 (137$\times$), Fashion-MNIST Middle from 543 to 0.895 (607$\times$). This exposes what equal weights mean: MNIST Post at $n = 2$ has $A = 88.43$\% and $\QP = 525$, while at $n = 4$ it has $A = 98.93$\% and $\QP = 61.1$, so the model that is 10.5~pp less accurate scores 8.6 times higher. Changing $\gamma$ to 0.5 or 2 only rescales these values without changing their order, since $Q/Q_{\max} = n/8$ and the $n = 8$ point is unchanged.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig6.pdf}
+\caption{Accuracy drop $\Dcal$ under the calibrated noise model (FakeAachen, 1,024 shots) versus gate count $G$ on a log scale, for the 27 configurations at training fraction 1.0 of each dataset; $\Dcal$ is the noiseless accuracy on the 2,000-image subset minus the noisy one. Filled markers are the $n = 4$ main grid and open markers the $n = 2$, 6, 8 sweep; error bars are $\pm$1 std over seeds. Each panel gives Spearman's $\rho$ over its 27 configurations (0.31 on MNIST, 0.62 on Fashion-MNIST).}
+\label{fig:dcal}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig7.pdf}
+\caption{Accuracy on the noisy-evaluation subset under the depolarizing sweep for the $n = 4$ main grid at training fraction 1.0, per placement and averaged over encodings and topologies; MNIST on the left and Fashion-MNIST on the right. The $x$-axis is the depolarizing strength $\pdep$ (0 = noiseless) applied after every single-qubit gate, with $10\pdep$ on each qubit of every CNOT; error bars are $\pm$1 std over seeds.}
+\label{fig:depol}
+\end{figure*}
+
+\input{tables/tab07_noise}
+
+\subsection{Noise}
+\label{sec:res-noise}
+
+Under the calibrated device noise model (FakeAachen, 1,024 shots), the $n = 4$ main grid is almost unaffected (Table~\ref{tab:noise}). $\Dcal$ ranges from $-0.04$ to $+0.42$~pp on MNIST and from $-0.08$ to $+0.27$~pp on Fashion-MNIST, averaging 0.06~pp (0.045 on MNIST, 0.073 on Fashion-MNIST); 11 of the 36 values are negative and 2 are exactly zero, which is what sampling noise at 1,024 shots looks like. The likely mechanism is a near-uniform compression of the $\langle Z\rangle$ values: in a check on one $n = 4$ configuration (MNIST Middle/Amp/FC, seed-0 checkpoint, 40 images, 200,000 shots), a least-squares fit gave noisy $\langle Z\rangle \approx 0.82 \times$ noiseless $\langle Z\rangle$, and a compression of this kind is expected to leave the argmax of the classifier head mostly unchanged; the argmax agreement itself was not counted.
+
+A real drop first appears at $n = 6$ in one amplitude configuration (Fashion-MNIST Middle, $2.13 \pm 1.20$~pp at 439 two-qubit gates; the other four $n = 6$ amplitude configurations lose 0.06--0.90~pp) and becomes large at $n = 8$ for three of the five amplitude models, where the transpiled circuits have 1,330--1,624 two-qubit gates: on Fashion-MNIST $\Dcal$ is $56.05 \pm 5.68$~pp for Middle, $21.94 \pm 14.83$ for Post, and $6.07 \pm 2.13$ for Pre; on MNIST $20.20 \pm 20.29$ for Middle, 0.55 for Post, and 0.02 for Pre (which uses angle encoding, 294 two-qubit gates).
+
+Across the 27 configurations at full data, Spearman $\rho(G, \Dcal)$ is 0.62 on Fashion-MNIST ($p < 0.001$) and 0.31 on MNIST ($p = 0.12$) (Fig.~\ref{fig:dcal}); within the 18 main-grid configurations alone the correlation is not significant (0.24 on Fashion-MNIST, $p = 0.33$; $-0.22$ on MNIST, $p = 0.37$), so the gate count predicts degradation only once the circuits grow past a few hundred two-qubit gates.
+
+Under the depolarizing sweep on the $n = 4$ grid at full training data (Fig.~\ref{fig:depol}), $\pdep = 0.001$ costs any single configuration at most 0.41~pp on MNIST and 3.31~pp on Fashion-MNIST (both at Middle with amplitude encoding), but from $\pdep = 0.005$ Middle and Post collapse: averaged over encodings and topologies, Middle falls to 52.95 / 42.82\% and Post to 59.96 / 48.24\% (MNIST / Fashion-MNIST) at $\pdep = 0.005$, to 30.32 / 23.48\% and 38.77 / 30.94\% at $\pdep = 0.01$, and to 12.61 / 12.17\% and 18.34 / 14.73\% at $\pdep = 0.02$, where 10\% is random guessing. The amplitude sweep models at $n \geq 6$ are more fragile still: already at $\pdep = 0.001$ they lose 1.2--72~pp, with the Middle models at 26--55~pp ($n = 6$) and 71--72~pp ($n = 8$). Pre stays at 98.7--98.8\% on MNIST throughout (98.84\% at $\pdep = 0.001$, 98.74\% at $\pdep = 0.02$) and goes from 88.72 to 84.52\% on Fashion-MNIST (about 7~pp for Pre/Amp, 1--2~pp for Pre/Ang), because the residual path lets the CNN bypass the quantum block. Amplitude encoding is also more fragile than angle: at $\pdep = 0.005$ it averages 48.80 / 40.06\% against 92.30 / 77.58\% for angle, because amplitude encoding needs 58 encoding gates at $n = 4$ while angle needs 4, and every gate is followed by a noise channel.
+
+\subsection{Training dynamics and latency}
+\label{sec:res-latency}
+
+In convergence, Pre behaves like \texttt{base\_cnn}: both reach the threshold in 1.0 epoch at 100\% data and in 1.1--1.2 epochs at 50\%. Middle/Angle, Post/Angle, and Post/Amplitude are the slowest (at 20\% data on MNIST only 8, 7, and 9 of 15 runs reach 0.95 at all), while Middle/Amplitude converges faster than its matched model at every training fraction (MNIST 100\%: 1.0 versus 4.4 epochs).
+
+Latency $D$ is 0.049--0.050~ms for \texttt{base\_cnn} and 0.063--0.083~ms for \texttt{cnn\_matched}, against 1.31--1.75~ms for the $n = 4$ hybrids (median 1.35 for angle, 1.40 for amplitude); in the sweep it is 0.84--0.95~ms at $n = 2$, 1.81--2.67 at $n = 6$, and 2.25--4.05 at $n = 8$. $D$ and $G$ measure different costs for amplitude encoding: at $n = 4$, amplitude has 2.1 times the $G$ of angle for the Linear and Random topologies (103 versus 49; 1.9 times for FullyConnected) but only 3.9\% higher median $D$, and at $n = 8$ the amplitude circuits have $G = 1{,}111$--1,174 against 164 for angle yet a lower $D$ of 2.25--3.93~ms, including 2.26~ms for Fashion-MNIST Pre/Amp/Lin at the same Pre placement as the angle circuit, versus 4.05~ms for MNIST Pre/Ang/FC. The reason is that the simulator prepares the amplitude state natively instead of executing the gates that $G$ counts; $D$ is therefore a proxy for simulation cost, and on real hardware it would track $G$.
+
+$D$ is a property of the architecture: the same architecture measured at its three training fractions differs by 1.1\% (median) and at most 10.6\%. Yet among configurations with equal $G$, Q-Par is decided by $D$ differences of exactly this size; on Fashion-MNIST, Pre/Ang/Lin and Pre/Ang/Rnd rank 8 and 16 instead of in the top five because their $D$ is 0.05--0.17~ms higher than that of the rank-1 configuration.
+
+% =====================================================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{In this design space, Q-Par is a gate-count ranking corrected by latency}
+\label{sec:disc-gate}
+
+Equal-weight Q-Par is driven mainly by $G$. This is not a flaw in the design; it is the metric reporting that these configurations barely differ in accuracy, so cost has to be decided. $\tau(A, \QP)$ is $-0.058$ and $-0.051$ (Section~\ref{sec:res-rank}); of the 80 rank moves of at least 10 places, 78 are driven by $G$; $A$ spans a factor of 1.16--1.19 while $G$ spans 2.29, and as shown in Section~\ref{sec:qpar-props}, the influence of a term equals its exponent times its logarithmic span. On a task where the configurations are nearly tied in accuracy, Q-Par's answer is the cheapest circuit: angle + Linear/Random, $G = 49$. It gives more information than looking at $A$ alone, because the top five by $A$ on MNIST differ by only 0.07~pp, which is noise level, and Q-Par breaks that tie with cost. However, on a harder dataset where $A$ spreads more, the balance point will shift; $\alpha^* \approx 5.6$ (MNIST) and 4.9 (Fashion-MNIST) measure how far this grid is from that point.
+
+\subsection{What equal weights actually mean: the qubit-sweep pathology}
+\label{sec:disc-weights}
+
+Equal weights price a loss of 10.5~pp in accuracy as cheaper than the resources saved by going from four qubits to two, which is usually unacceptable in deployment. For instance, MNIST Post at $n = 2$ has $A = 88.43$\% and $\QP = 525$, while at $n = 4$ it has $A = 98.93$\% and $\QP = 61.1$: the less accurate model scores 8.6 times higher (Section~\ref{sec:res-sweep}), and equal-weight Q-Par falls 137--607$\times$ from $n = 2$ to 8. Hence, as stated in Section~\ref{sec:qpar-scope}, equal weights are a default and not a recommendation. In practice there are two ways out: set $\alpha$ at or above $\alpha^*$, or set a minimum accuracy and apply Q-Par only to the configurations above it. The second is more practical, because it does not require the user to interpret the exponents; on MNIST, any reasonable floor (for example 98\%) removes the $n = 2$ Post model at once.
+
+\subsection{The sensitivity result is stability for the wrong reason}
+\label{sec:disc-sens}
+
+$\tau \geq 0.947$ looks like robustness against the weights, but Section~\ref{sec:res-sens} shows the real reason: no exponent between 0.5 and 2 can overpower the span of $G$. $\delta = 0.5$ gives the minimum, 0.947/0.951, and even $\alpha = 2$ gives only 0.948/0.954. $\gamma$ is inert on the main grid because every configuration has $n = 4$; in the 27-configuration supplement $\tau$ is still $\geq 0.977$ and $\gamma$ still gives 1.000, because $G$ and $D$ grow together with $Q$. This implies that any metric claiming robustness to its weights should report the span of each term as well, or the robustness may just be the outcome of one term monopolizing the ranking. It also shows that a term with no variation in the compared set contributes nothing, so the terms of a metric must be read together with the experimental design.
+
+\subsection{No hybrid advantage, and Q-Par cannot say so by itself}
+\label{sec:disc-classical}
+
+On both datasets there is no evidence of a hybrid advantage over the classical CNN. In none of the 36 cells does the hybrid's mean accuracy exceed \texttt{base\_cnn}'s beyond the seed spread (the largest margin is 0.00~pp), and the best individual configurations are ties, $98.97 \pm 0.10$ and $98.93 \pm 0.07$ versus $98.92 \pm 0.04$ on MNIST (Section~\ref{sec:res-base}). Against \texttt{cnn\_matched} the record is 12 wins, 2 losses, and 22 ties; 11 of the wins use amplitude encoding, all 12 are at Middle/Post, the gains are largest with little training data, and the effect sizes are large ($d_z$ 3--8 in 10 of the 12 cells), but \texttt{cnn\_matched} has a hidden width of 2 or 3, narrower than the quantum block's 4 outputs. On latency, the hybrids are 16--36$\times$ slower than the baselines (1.31--1.75~ms versus 0.049--0.083~ms, Section~\ref{sec:res-latency}). The parameter counts are matched to within 0.124\%, so the wins at low data cannot be a parameter effect; they may come from the wider bottleneck, or from an implicit regularization by the bounded $\langle Z\rangle$ outputs, and this study cannot separate the two. These findings are consistent with recent benchmark studies. Because Q-Par is undefined for a classical model (Section~\ref{sec:qpar-scope}), the configuration with the highest Q-Par is not necessarily the one worth using. Q-Par answers the question ``if a hybrid model must be used, which one'', not ``whether to use one''; the second question needs a classical baseline such as Section~\ref{sec:res-base}.
+
+\subsection{Noise: placement matters more than gate count, and why noise stays outside the formula}
+\label{sec:disc-noise}
+
+$G$ predicts noise damage in a threshold-like way, not linearly, whereas robustness is mainly determined by the placement of the quantum block. At $n = 4$, $\Dcal$ is about 0.06~pp; in a check on one $n = 4$ configuration the noisy $\langle Z\rangle$ values fitted 0.82$\times$ the noiseless ones, and a near-uniform compression is expected to leave the argmax of the head mostly unchanged, which suggests the mechanism. A real drop first appears at $n = 6$ in one amplitude configuration (Fashion-MNIST Middle, 439 two-qubit gates, about 2~pp; the other four lose at most 0.9~pp) and becomes large at $n = 8$ for three of the five amplitude models (20--56~pp; Fashion-MNIST Pre and MNIST Post lose 6.07 and 0.55~pp), where the circuits have 1,330--1,624 two-qubit gates. $\rho(G, \Dcal)$ is 0.62 on Fashion-MNIST over the 27 configurations but not significant within the 18 of the main grid. In the depolarizing sweep, Pre on MNIST drops only 0.06~pp at $\pdep = 0.02$, while Middle/Post drop to 43--60\% already at $\pdep = 0.005$; amplitude encoding is also more fragile than angle, because each of its 58 encoding gates at $n = 4$ carries a noise channel while angle has 4.
+
+Pre is almost the same as \texttt{base\_cnn} in accuracy, convergence speed, and noise. This suggests that the residual path allows the CNN to bypass the quantum block, so the quantum block contributes little to the network; the ${\sim}7$~pp drop of Pre/Amp on Fashion-MNIST at $\pdep = 0.02$ shows that it is not completely inert. $\Dcal$ is also kept out of the Q-Par formula because it is calibrated on a specific machine and date, so its value changes with the calibration; I did not want Q-Par to be the score of one machine on one day. $G$, in contrast, is static and device-agnostic, and the threshold relation above shows that it proxies noise damage only for large circuits, so noise stays a companion quantity reported next to Q-Par.
+
+\subsection{\texorpdfstring{$D$ versus $G$}{D versus G}: what ``cost'' means on a simulator}
+\label{sec:disc-cost}
+
+$D$ and $G$ are two different aspects of cost, so on a simulator they disagree. At $n = 4$, amplitude has about twice the $G$ of angle but only 3.9\% higher median $D$; at $n = 8$, amplitude has $G = 1{,}111$ versus 164 yet a lower $D$ (2.26 versus 4.05~ms at the same Pre placement), because the simulator writes the amplitude-encoded state directly into the state vector instead of executing the M\"ott\"onen gates that $G$ counts (Section~\ref{sec:res-latency}). For the same architecture at its three training fractions, $D$ differs by 1.1\% (median) and at most 10.6\%; yet on Fashion-MNIST, Pre/Ang/Lin and Pre/Ang/Rnd rank 8 and 16 rather than in the top five because of $D$ differences of 0.05--0.17~ms from the rank-1 configuration. All in all, $D$ in this study is simulation cost; on real hardware $D$ would track $G$ (plus the shots times the circuit time), and the behaviour of the $D$ term would change. This is why I report all five components and not only the total score. Differences in Q-Par of less than about 10\% between configurations with equal $G$ should be treated as ties; attaching an uncertainty to Q-Par is left for future work (Section~\ref{sec:limitations}).
+
+Three steps for anyone who intends to use it: first, look at the span of each term over the compared set of configurations to see which one will dominate; second, set an accuracy floor if one is needed, then apply Q-Par; last, report the total score and the five components together. The value of Q-Par is not that it selects the best architecture, but that it turns hidden trade-offs into explicit numbers that can be checked and argued about.
+
+% =====================================================================================================
+\section{Limitations and Future Work}
+\label{sec:limitations}
+
+\subsection{Limitations}
+\label{sec:lim}
+
+\subsubsection{Datasets and scale}
+\label{sec:lim-data}
+
+With only two datasets, MNIST and Fashion-MNIST (10 classes, $28\times28$), the configurations are almost tied in accuracy ($A$ spans 1.16--1.19$\times$), and this is the main reason why Q-Par is driven by $G$. On harder tasks $A$ would spread more and $\alpha^*$ would come down, so the dominance of $G$ is a property of this grid, not a general behaviour of Q-Par.
+
+The design space is also narrow: $n \leq 8$, a fixed depth of 3 layers, one circuit family (Rot + CNOT), one CNN backbone, and no hyperparameter tuning (every model used the same learning rate and epoch budget), so the ranking among richer circuit families or tuned models is untested. The Random topology was drawn once per qubit count, and at $n = 6$ and 8 the draw leaves one qubit without a CNOT in the variational layers (Section~\ref{sec:design-topo}).
+
+\subsubsection{Simulation only}
+\label{sec:lim-sim}
+
+No real quantum hardware was used. $D$ is the latency on a single thread of an Apple M3 Pro. On real hardware $D$ would be roughly shots $\times$ circuit time plus queueing, so it would follow $G$, and the advantage that the simulator gives to amplitude encoding (the $D$--$G$ disagreement in Section~\ref{sec:res-latency}) would disappear.
+
+$G$ also counts gates before transpilation. After transpilation to the device's basis gates and coupling map, the two-qubit gate count is higher: at $n = 8$, the 84 CNOTs of the angle circuit become 294 two-qubit gates, and the 529--592 CNOTs of the amplitude circuits become 1,330--1,624 (Section~\ref{sec:res-noise}). The calibrated noise model is a snapshot of FakeAachen on one calibration date (2026-04-17) at 1,024 shots, and it was applied at inference only: no noise-aware training and no error mitigation were used. The depolarizing sweep is simplified as well, with one uniform $\pdep$ for every single-qubit gate and a fixed $10\pdep$ for every CNOT, rather than per-gate calibrated rates.
+
+\subsubsection{Baselines and statistics}
+\label{sec:lim-stats}
+
+\texttt{cnn\_matched} has a hidden width of 2 or 3 against the quantum block's 4 outputs, so the 12 wins of the hybrid cannot be fully credited to the circuit. With 5 seeds, the exact Wilcoxon test cannot go below $p = 0.0625$, the 36 paired comparisons are unadjusted (about two false positives are expected at $p < 0.05$), and $\sigma_a$ itself is a standard deviation of only five values, so it is noisy.
+
+\subsubsection{The metric itself}
+\label{sec:lim-metric}
+
+Equal weights remain a default (Section~\ref{sec:qpar-scope}). $D$ carries 1.1--10.6\% measurement noise, but Q-Par is reported without an uncertainty. Q-Par is undefined for a purely classical model, it leaves out shots, energy, and training cost, and its normalization constants are specific to this study, so absolute values cannot be compared across studies.
+
+\subsection{Future work}
+\label{sec:future}
+
+The first step is to run the top-ranked configurations on real hardware (IBM Heron) to measure the real $D$ and the accuracy drop $\Delta$, and to test the prediction that $D$ follows $G$. The second is a harder dataset such as CIFAR-10, to check whether a wider span of $A$ moves $\alpha^*$ as predicted.
+
+It would also help to attach an uncertainty to Q-Par, propagated from $\sigma_a$ and from repeated measurements of $D$, so that ties can be identified rather than guessed. A constrained variant with an accuracy floor should be defined formally and reported next to a Pareto view. A width-matched classical baseline, rather than a parameter-matched one, would separate the effect of the bottleneck width from the effect of the circuit, and noise-aware training would show how much of the depolarizing collapse is recoverable. Finally, Q-Par could be extended with shots and training cost, or turned into a device-specific variant by replacing $A$ with the accuracy measured on hardware, $A_{\mathrm{hw}}$.
+
+% =====================================================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+Q-Par is a single-scalar metric that combines accuracy, stability across seeds, qubit count, gate count, and inference latency with explicit exponents, so that hybrid CNN--QNN configurations can be ranked and the trade-off behind the ranking can be read off. Throughout this study, I found that $G$ mainly drives Q-Par, and that this is also the reason why the ranking stays stable when the exponents change: $A$ spans only 1.16--1.19$\times$ while $G$ spans 2.29$\times$. As a consequence, every configuration that rose by at least 10 places used angle encoding. The influence of a term is its exponent times its logarithmic span, so any report of a composite metric should show the span of each term as well. Equal weights have a cost: they favour an $n = 2$ model with 10.5~pp lower accuracy over a more accurate model with more qubits (8.6$\times$ higher Q-Par), so the practical solution is to set an accuracy floor first and apply Q-Par afterwards. Last, there is no evidence of a hybrid advantage over the classical CNN on these tasks, and Q-Par by itself cannot show this, because it is undefined for classical models; a classical baseline has to come first. Noise is reported next to Q-Par rather than inside it: the calibrated noise model costs about 0.06~pp at $n = 4$, real damage appears from a few hundred two-qubit gates and becomes large in three of the five $n = 8$ amplitude circuits with over 1,300, and robustness depends more on where the quantum block is placed than on its gate count. These conclusions hold for two 10-class image datasets in simulation, and they need to be re-checked on harder tasks and on real hardware. Ultimately, the value of Q-Par is not that it selects the best design, but that it makes the numbers behind a design choice explicit, so that they can be checked and argued about.
+
+% =====================================================================================================
+\appendix
+\phantomsection
+\section*{Appendix}
+
+The Random topology was drawn with seed 2026 as $n-1$ edges; a draw equal to the Linear chain is redrawn. At $n = 4$ the redraw gives the star $\{(0,1), (0,2), (0,3)\}$; at $n = 6$ and 8 the first draw was kept, and the edge lists are given below. At $n = 6$ and 8 the graph is not connected: qubit 4 ($n = 6$) and qubit 6 ($n = 8$) receive no CNOT in the variational layers, although the amplitude-encoding circuit still entangles them; this concerns the MNIST Middle and Post amplitude sweep models.
+\begin{itemize}
+\item $n = 6$: $(0,1)$, $(0,3)$, $(1,2)$, $(1,5)$, $(2,3)$
+\item $n = 8$: $(0,1)$, $(0,3)$, $(0,5)$, $(1,4)$, $(1,7)$, $(2,5)$, $(3,4)$
+\end{itemize}
+
+\phantomsection
+\section*{Acknowledgment}
+I thank Dr.~Jonathan Holt for mentoring this project. Claude (Anthropic) was used to edit the manuscript for grammar and clarity and to check the text against the result tables; Claude Code was used to implement the experiment code and analysis following a protocol written and approved by the author. All text was drafted by the author, who verified every number and citation and takes full responsibility for the content. The author declares no conflict of interest. This work received no external funding.
+
+\phantomsection
+\section*{Data Availability}
+The code, configurations, run records, tables, and figures are available at \url{https://github.com/JeremyLih/qpar}.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+% Biography from paper/v3/input/bio.txt; the class prints the name argument in capitals ("JEREMY LI") as its first words.
+\begin{IEEEbiographynophoto}{Jeremy Li}
+is a Grade 12 student at St. Michaels University School, Victoria, BC, Canada, where he is expected to graduate in 2027. He focuses on machine learning, deep learning, and quantitative systems, with a growing interest in quantum information. His work spans research and engineering: running experiments, entering machine-learning competitions, and turning ideas into working systems. His solo entry to the Kaggle ROGII Wellbore Geology Prediction competition placed 243rd of 6,125 teams. He maintains a personal technical site at andromedax.org and his code at github.com/JeremyLih.
+\end{IEEEbiographynophoto}
+
+\EOD
+
+\end{document}

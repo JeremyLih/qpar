@@ -1,0 +1,39 @@
+{
+ "config_id": "mnist_pre_angle_fullyconnected_n8_tf0.2",
+ "config": {
+  "kind": "hybrid",
+  "dataset": "mnist",
+  "placement": "pre",
+  "encoding": "angle",
+  "topology": "fullyconnected",
+  "n_qubits": 8,
+  "train_frac": 0.2
+ },
+ "A": 0.902,
+ "pass": true,
+ "train_loss": 0.755507110747424,
+ "train_size": 11000,
+ "t_train_per_sample": 0.01197910018618182,
+ "t_eval_per_sample": 0.005293174827200005,
+ "params_total": 25386,
+ "params_quantum": 72,
+ "G": 164,
+ "G_variational": 156,
+ "matched_map": null,
+ "params_matched_map": null,
+ "simulator": "lightning.qubit",
+ "environment": {
+  "python": "3.11.16",
+  "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "torch_threads": 1,
+  "omp_num_threads": "1",
+  "torch": "2.14.0+cpu",
+  "pennylane": "0.45.1",
+  "pennylane-lightning": "0.45.0",
+  "qiskit": "2.5.2",
+  "qiskit-aer": "0.17.2",
+  "qiskit-ibm-runtime": "0.50.0",
+  "numpy": "2.4.6"
+ }
+}

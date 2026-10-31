@@ -1,0 +1,285 @@
+{
+ "calibration_factor": 0.9771779446648923,
+ "timing_run_minutes": 50.104639204168535,
+ "setup_hours": 0.5,
+ "scenarios": {
+  "sweep_angle": {
+   "total_mac_worker_hours": 369.475935942797,
+   "train_worker_hours": 249.84476458116447,
+   "noise_worker_hours": 119.63117136163251,
+   "instances": [
+    {
+     "name": "gpu_1x_gh200",
+     "vcpus": 64,
+     "usd_per_hour": 2.29,
+     "arch": "aarch64",
+     "workers": 32,
+     "slowdown": 1.0,
+     "wall_hours": 12.051989039451733,
+     "cost_usd": 27.59905490034447,
+     "utilization": 0.9994922050895915
+    },
+    {
+     "name": "gpu_1x_gh200",
+     "vcpus": 64,
+     "usd_per_hour": 2.29,
+     "arch": "aarch64",
+     "workers": 32,
+     "slowdown": 1.5,
+     "wall_hours": 17.8279835591776,
+     "cost_usd": 40.82608235051671,
+     "utilization": 0.9994922050895915
+    },
+    {
+     "name": "gpu_1x_gh200",
+     "vcpus": 64,
+     "usd_per_hour": 2.29,
+     "arch": "aarch64",
+     "workers": 32,
+     "slowdown": 2.0,
+     "wall_hours": 23.603978078903467,
+     "cost_usd": 54.05310980068894,
+     "utilization": 0.9994922050895915
+    },
+    {
+     "name": "gpu_1x_a10",
+     "vcpus": 30,
+     "usd_per_hour": 1.29,
+     "arch": "x86_64",
+     "workers": 15,
+     "slowdown": 1.0,
+     "wall_hours": 25.133832704854335,
+     "cost_usd": 32.422644189262094,
+     "utilization": 0.9999146035443851
+    },
+    {
+     "name": "gpu_1x_a10",
+     "vcpus": 30,
+     "usd_per_hour": 1.29,
+     "arch": "x86_64",
+     "workers": 15,
+     "slowdown": 1.5,
+     "wall_hours": 37.4507490572815,
+     "cost_usd": 48.31146628389313,
+     "utilization": 0.9999146035443851
+    },
+    {
+     "name": "gpu_1x_a10",
+     "vcpus": 30,
+     "usd_per_hour": 1.29,
+     "arch": "x86_64",
+     "workers": 15,
+     "slowdown": 2.0,
+     "wall_hours": 49.76766540970867,
+     "cost_usd": 64.20028837852419,
+     "utilization": 0.9999146035443851
+    },
+    {
+     "name": "gpu_1x_rtx6000",
+     "vcpus": 14,
+     "usd_per_hour": 0.69,
+     "arch": "x86_64",
+     "workers": 7,
+     "slowdown": 1.0,
+     "wall_hours": 53.39156836420511,
+     "cost_usd": 36.84018217130153,
+     "utilization": 0.9979336630709108
+    },
+    {
+     "name": "gpu_1x_rtx6000",
+     "vcpus": 14,
+     "usd_per_hour": 0.69,
+     "arch": "x86_64",
+     "workers": 7,
+     "slowdown": 1.5,
+     "wall_hours": 79.83735254630767,
+     "cost_usd": 55.08777325695229,
+     "utilization": 0.9979336630709108
+    },
+    {
+     "name": "gpu_1x_rtx6000",
+     "vcpus": 14,
+     "usd_per_hour": 0.69,
+     "arch": "x86_64",
+     "workers": 7,
+     "slowdown": 2.0,
+     "wall_hours": 106.28313672841023,
+     "cost_usd": 73.33536434260306,
+     "utilization": 0.9979336630709108
+    },
+    {
+     "name": "gpu_4x_a100_pcie",
+     "vcpus": 120,
+     "usd_per_hour": 7.96,
+     "arch": "x86_64",
+     "workers": 60,
+     "slowdown": 1.0,
+     "wall_hours": 8.30736572735497,
+     "cost_usd": 66.12663118974557,
+     "utilization": 0.7887336754492614
+    },
+    {
+     "name": "gpu_4x_a100_pcie",
+     "vcpus": 120,
+     "usd_per_hour": 7.96,
+     "arch": "x86_64",
+     "workers": 60,
+     "slowdown": 1.5,
+     "wall_hours": 12.211048591032455,
+     "cost_usd": 97.19994678461833,
+     "utilization": 0.7887336754492614
+    },
+    {
+     "name": "gpu_4x_a100_pcie",
+     "vcpus": 120,
+     "usd_per_hour": 7.96,
+     "arch": "x86_64",
+     "workers": 60,
+     "slowdown": 2.0,
+     "wall_hours": 16.11473145470994,
+     "cost_usd": 128.27326237949111,
+     "utilization": 0.7887336754492614
+    }
+   ]
+  },
+  "sweep_amplitude": {
+   "total_mac_worker_hours": 1181.076716556072,
+   "train_worker_hours": 547.2870828939357,
+   "noise_worker_hours": 633.7896336621391,
+   "instances": [
+    {
+     "name": "gpu_1x_gh200",
+     "vcpus": 64,
+     "usd_per_hour": 2.29,
+     "arch": "aarch64",
+     "workers": 32,
+     "slowdown": 1.0,
+     "wall_hours": 38.25703938463534,
+     "cost_usd": 87.60862019081493,
+     "utilization": 0.9775302299628046
+    },
+    {
+     "name": "gpu_1x_gh200",
+     "vcpus": 64,
+     "usd_per_hour": 2.29,
+     "arch": "aarch64",
+     "workers": 32,
+     "slowdown": 1.5,
+     "wall_hours": 57.135559076953,
+     "cost_usd": 130.8404302862224,
+     "utilization": 0.9775302299628046
+    },
+    {
+     "name": "gpu_1x_gh200",
+     "vcpus": 64,
+     "usd_per_hour": 2.29,
+     "arch": "aarch64",
+     "workers": 32,
+     "slowdown": 2.0,
+     "wall_hours": 76.01407876927068,
+     "cost_usd": 174.07224038162985,
+     "utilization": 0.9775302299628046
+    },
+    {
+     "name": "gpu_1x_a10",
+     "vcpus": 30,
+     "usd_per_hour": 1.29,
+     "arch": "x86_64",
+     "workers": 15,
+     "slowdown": 1.0,
+     "wall_hours": 79.24029984395774,
+     "cost_usd": 102.21998679870549,
+     "utilization": 0.9999764787084044
+    },
+    {
+     "name": "gpu_1x_a10",
+     "vcpus": 30,
+     "usd_per_hour": 1.29,
+     "arch": "x86_64",
+     "workers": 15,
+     "slowdown": 1.5,
+     "wall_hours": 118.61044976593661,
+     "cost_usd": 153.00748019805823,
+     "utilization": 0.9999764787084044
+    },
+    {
+     "name": "gpu_1x_a10",
+     "vcpus": 30,
+     "usd_per_hour": 1.29,
+     "arch": "x86_64",
+     "workers": 15,
+     "slowdown": 2.0,
+     "wall_hours": 157.9805996879155,
+     "cost_usd": 203.79497359741097,
+     "utilization": 0.9999764787084044
+    },
+    {
+     "name": "gpu_1x_rtx6000",
+     "vcpus": 14,
+     "usd_per_hour": 0.69,
+     "arch": "x86_64",
+     "workers": 7,
+     "slowdown": 1.0,
+     "wall_hours": 179.53010387267344,
+     "cost_usd": 123.87577167214467,
+     "utilization": 0.9424406374823628
+    },
+    {
+     "name": "gpu_1x_rtx6000",
+     "vcpus": 14,
+     "usd_per_hour": 0.69,
+     "arch": "x86_64",
+     "workers": 7,
+     "slowdown": 1.5,
+     "wall_hours": 269.04515580901017,
+     "cost_usd": 185.641157508217,
+     "utilization": 0.9424406374823628
+    },
+    {
+     "name": "gpu_1x_rtx6000",
+     "vcpus": 14,
+     "usd_per_hour": 0.69,
+     "arch": "x86_64",
+     "workers": 7,
+     "slowdown": 2.0,
+     "wall_hours": 358.5602077453469,
+     "cost_usd": 247.40654334428933,
+     "utilization": 0.9424406374823628
+    },
+    {
+     "name": "gpu_4x_a100_pcie",
+     "vcpus": 120,
+     "usd_per_hour": 7.96,
+     "arch": "x86_64",
+     "workers": 60,
+     "slowdown": 1.0,
+     "wall_hours": 33.4834248510481,
+     "cost_usd": 266.5280618143429,
+     "utilization": 0.5968031528410456
+    },
+    {
+     "name": "gpu_4x_a100_pcie",
+     "vcpus": 120,
+     "usd_per_hour": 7.96,
+     "arch": "x86_64",
+     "workers": 60,
+     "slowdown": 1.5,
+     "wall_hours": 49.97513727657215,
+     "cost_usd": 397.8020927215143,
+     "utilization": 0.5968031528410456
+    },
+    {
+     "name": "gpu_4x_a100_pcie",
+     "vcpus": 120,
+     "usd_per_hour": 7.96,
+     "arch": "x86_64",
+     "workers": 60,
+     "slowdown": 2.0,
+     "wall_hours": 66.4668497020962,
+     "cost_usd": 529.0761236286858,
+     "utilization": 0.5968031528410456
+    }
+   ]
+  }
+ }
+}

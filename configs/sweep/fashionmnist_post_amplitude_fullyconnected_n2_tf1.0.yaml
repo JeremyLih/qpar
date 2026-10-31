@@ -1,0 +1,2 @@
+{kind: hybrid, block: S, dataset: fashionmnist, placement: post, encoding: amplitude,
+  topology: fullyconnected, n_qubits: 2, train_frac: 1.0}

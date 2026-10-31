@@ -1,0 +1,29 @@
+{
+ "python": "3.11.15",
+ "platform": "macOS-26.6.2-arm64-arm-64bit",
+ "machine": "arm64",
+ "torch_threads": 1,
+ "omp_num_threads": "1",
+ "torch": "2.14.0",
+ "pennylane": "0.45.1",
+ "pennylane-lightning": "0.45.0",
+ "qiskit": "2.5.2",
+ "qiskit-aer": "0.17.2",
+ "qiskit-ibm-runtime": "0.50.0",
+ "numpy": "2.4.6",
+ "cpu": "Apple M3 Pro",
+ "warmup": 20,
+ "samples": 200,
+ "started_at": "2026-09-28T15:45:46-0700",
+ "measured_at": "2026-09-28T15:46:31-0700",
+ "load_average_before": [
+  4.34375,
+  4.037109375,
+  3.13818359375
+ ],
+ "load_average_after": [
+  4.06982421875,
+  4.0,
+  3.169921875
+ ]
+}

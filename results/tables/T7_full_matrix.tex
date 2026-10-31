@@ -1,0 +1,73 @@
+\begin{table*}[!t]
+\centering
+\caption{All 54 main-matrix configurations per dataset: test accuracy $A$ (mean $\pm$ std over seeds) and equal-weight Q-Par.}
+\label{tab:full}
+\scriptsize
+\begin{tabular}{llllrrrr}
+\toprule
+ &  &  &  & \multicolumn{2}{c}{MNIST} & \multicolumn{2}{c}{Fashion-MNIST} \\
+\cmidrule(lr){5-6} \cmidrule(lr){7-8}
+Placement & Encoding & Topology & train\_frac & $A$ (\%) & Q-Par & $A$ (\%) & Q-Par \\
+\midrule
+Pre & Angle & Linear & 0.2 & 98.01 $\pm$ 0.13 & 132 & 86.12 $\pm$ 0.45 & 115 \\
+Pre & Angle & Linear & 0.5 & 98.72 $\pm$ 0.16 & 134 & 87.74 $\pm$ 0.61 & 116 \\
+Pre & Angle & Linear & 1.0 & 98.91 $\pm$ 0.09 & 135 & 88.84 $\pm$ 0.23 & 121 \\
+Pre & Angle & FC & 0.2 & 98.04 $\pm$ 0.16 & 95.8 & 85.95 $\pm$ 0.53 & 86.5 \\
+Pre & Angle & FC & 0.5 & 98.63 $\pm$ 0.12 & 95.7 & 88.02 $\pm$ 0.31 & 84.8 \\
+Pre & Angle & FC & 1.0 & 98.90 $\pm$ 0.13 & 95.2 & 88.76 $\pm$ 0.53 & 87.8 \\
+Pre & Angle & Random & 0.2 & 98.08 $\pm$ 0.09 & 134 & 85.85 $\pm$ 0.53 & 115 \\
+Pre & Angle & Random & 0.5 & 98.59 $\pm$ 0.10 & 135 & 87.76 $\pm$ 0.55 & 119 \\
+Pre & Angle & Random & 1.0 & 98.94 $\pm$ 0.08 & 136 & 88.88 $\pm$ 0.42 & 111 \\
+\midrule
+Pre & Amplitude & Linear & 0.2 & 97.61 $\pm$ 0.21 & 61.6 & 86.02 $\pm$ 0.52 & 53.4 \\
+Pre & Amplitude & Linear & 0.5 & 98.34 $\pm$ 0.16 & 61.9 & 87.98 $\pm$ 0.36 & 56.4 \\
+Pre & Amplitude & Linear & 1.0 & 98.76 $\pm$ 0.11 & 61.7 & 89.29 $\pm$ 0.33 & 58.0 \\
+Pre & Amplitude & FC & 0.2 & 97.72 $\pm$ 0.27 & 48.2 & 85.84 $\pm$ 0.48 & 40.2 \\
+Pre & Amplitude & FC & 0.5 & 98.44 $\pm$ 0.07 & 47.9 & 87.94 $\pm$ 0.17 & 41.5 \\
+Pre & Amplitude & FC & 1.0 & 98.85 $\pm$ 0.05 & 47.7 & 89.36 $\pm$ 0.20 & 45.4 \\
+Pre & Amplitude & Random & 0.2 & 97.45 $\pm$ 0.20 & 61.9 & 85.95 $\pm$ 0.56 & 55.7 \\
+Pre & Amplitude & Random & 0.5 & 98.26 $\pm$ 0.12 & 62.4 & 87.90 $\pm$ 0.12 & 53.6 \\
+Pre & Amplitude & Random & 1.0 & 98.82 $\pm$ 0.10 & 62.9 & 89.07 $\pm$ 0.32 & 55.6 \\
+\midrule
+Middle & Angle & Linear & 0.2 & 94.85 $\pm$ 0.44 & 130 & 83.02 $\pm$ 0.47 & 119 \\
+Middle & Angle & Linear & 0.5 & 96.96 $\pm$ 0.37 & 132 & 85.50 $\pm$ 0.70 & 122 \\
+Middle & Angle & Linear & 1.0 & 97.56 $\pm$ 0.30 & 132 & 87.08 $\pm$ 0.46 & 124 \\
+Middle & Angle & FC & 0.2 & 94.91 $\pm$ 0.35 & 92.5 & 82.57 $\pm$ 1.22 & 83.9 \\
+Middle & Angle & FC & 0.5 & 97.03 $\pm$ 0.14 & 94.1 & 86.12 $\pm$ 0.60 & 87.6 \\
+Middle & Angle & FC & 1.0 & 97.80 $\pm$ 0.20 & 95.9 & 87.27 $\pm$ 0.58 & 89.3 \\
+Middle & Angle & Random & 0.2 & 95.41 $\pm$ 0.53 & 129 & 83.56 $\pm$ 0.91 & 118 \\
+Middle & Angle & Random & 0.5 & 97.05 $\pm$ 0.37 & 131 & 86.30 $\pm$ 0.49 & 123 \\
+Middle & Angle & Random & 1.0 & 97.91 $\pm$ 0.06 & 134 & 87.04 $\pm$ 0.46 & 124 \\
+\midrule
+Middle & Amplitude & Linear & 0.2 & 97.80 $\pm$ 0.35 & 61.7 & 85.26 $\pm$ 0.62 & 56.2 \\
+Middle & Amplitude & Linear & 0.5 & 98.37 $\pm$ 0.18 & 61.4 & 87.84 $\pm$ 0.17 & 58.3 \\
+Middle & Amplitude & Linear & 1.0 & 98.77 $\pm$ 0.11 & 61.9 & 88.81 $\pm$ 0.32 & 58.6 \\
+Middle & Amplitude & FC & 0.2 & 97.78 $\pm$ 0.40 & 47.9 & 85.42 $\pm$ 0.32 & 44.3 \\
+Middle & Amplitude & FC & 0.5 & 98.39 $\pm$ 0.17 & 47.4 & 87.69 $\pm$ 0.30 & 45.1 \\
+Middle & Amplitude & FC & 1.0 & 98.77 $\pm$ 0.15 & 48.4 & 89.01 $\pm$ 0.16 & 46.3 \\
+Middle & Amplitude & Random & 0.2 & 97.90 $\pm$ 0.17 & 61.4 & 85.47 $\pm$ 0.34 & 56.6 \\
+Middle & Amplitude & Random & 0.5 & 98.45 $\pm$ 0.21 & 62.0 & 87.81 $\pm$ 0.15 & 58.0 \\
+Middle & Amplitude & Random & 1.0 & 98.67 $\pm$ 0.12 & 62.9 & 88.93 $\pm$ 0.28 & 58.7 \\
+\midrule
+Post & Angle & Linear & 0.2 & 85.31 $\pm$ 8.09 & 107 & 75.37 $\pm$ 5.31 & 101 \\
+Post & Angle & Linear & 0.5 & 97.51 $\pm$ 0.96 & 133 & 86.36 $\pm$ 1.25 & 121 \\
+Post & Angle & Linear & 1.0 & 98.39 $\pm$ 0.22 & 135 & 87.89 $\pm$ 0.58 & 124 \\
+Post & Angle & FC & 0.2 & 89.75 $\pm$ 16.44 & 73.3 & 78.45 $\pm$ 8.50 & 73.1 \\
+Post & Angle & FC & 0.5 & 96.56 $\pm$ 3.24 & 87.1 & 85.43 $\pm$ 1.06 & 86.1 \\
+Post & Angle & FC & 1.0 & 98.38 $\pm$ 0.18 & 86.8 & 87.90 $\pm$ 0.55 & 89.2 \\
+Post & Angle & Random & 0.2 & 87.88 $\pm$ 9.08 & 110 & 78.83 $\pm$ 6.06 & 105 \\
+Post & Angle & Random & 0.5 & 97.15 $\pm$ 1.36 & 132 & 86.16 $\pm$ 2.80 & 119 \\
+Post & Angle & Random & 1.0 & 98.56 $\pm$ 0.12 & 136 & 88.73 $\pm$ 0.43 & 125 \\
+\midrule
+Post & Amplitude & Linear & 0.2 & 91.99 $\pm$ 8.54 & 51.4 & 83.89 $\pm$ 1.05 & 54.1 \\
+Post & Amplitude & Linear & 0.5 & 98.60 $\pm$ 0.14 & 58.9 & 87.52 $\pm$ 0.45 & 57.3 \\
+Post & Amplitude & Linear & 1.0 & 98.86 $\pm$ 0.09 & 57.5 & 89.11 $\pm$ 0.25 & 58.4 \\
+Post & Amplitude & FC & 0.2 & 94.47 $\pm$ 4.84 & 43.7 & 84.38 $\pm$ 1.58 & 42.9 \\
+Post & Amplitude & FC & 0.5 & 98.68 $\pm$ 0.11 & 48.0 & 87.37 $\pm$ 0.42 & 45.0 \\
+Post & Amplitude & FC & 1.0 & 98.97 $\pm$ 0.10 & 48.3 & 89.09 $\pm$ 0.12 & 46.0 \\
+Post & Amplitude & Random & 0.2 & 94.01 $\pm$ 5.55 & 54.0 & 84.38 $\pm$ 1.39 & 54.7 \\
+Post & Amplitude & Random & 0.5 & 98.69 $\pm$ 0.13 & 57.9 & 87.77 $\pm$ 0.28 & 57.4 \\
+Post & Amplitude & Random & 1.0 & 98.93 $\pm$ 0.07 & 61.1 & 89.13 $\pm$ 0.37 & 58.2 \\
+\bottomrule
+\end{tabular}
+\end{table*}

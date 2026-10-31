@@ -1,0 +1,43 @@
+\begin{table*}[!t]
+\centering
+\caption{Supplement to Table~\ref{tab:sensitivity}: sensitivity of the Q-Par ranking of the 27 hybrid configurations at train\_frac = 1.0 of each dataset (the 18 of the main matrix and the 9 of the qubit sweep, $n \in \{2, 4, 6, 8\}$), where the qubit count $Q$ varies, to the exponents: one exponent at 0.5 or 2 with the others at 1, and three presets (accuracy-first $\alpha = 2$, latency-first $\delta = 2$, resource-first $\gamma = \varepsilon = 2$). Kendall $\tau$ against the equal-weight ranking and the five top-ranked configurations (placement/encoding/topology/qubits).}
+\label{tab:sensitivity_supplement}
+\scriptsize
+\begin{tabular}{lrrl}
+\toprule
+Setting & Kendall $\tau$ & $p$ & Top 5 (rank 1 first) \\
+\midrule
+\multicolumn{4}{l}{\textit{MNIST}} \\
+Equal weights & 1.000 & -- & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\alpha = 0.5$ & 0.989 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Post/Ang/Rnd/n4, Pre/Ang/Rnd/n4 \\
+$\alpha = 2$ & 0.983 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\beta = 0.5$ & 0.989 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Post/Ang/Rnd/n4, Pre/Ang/Rnd/n4 \\
+$\beta = 2$ & 0.994 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\gamma = 0.5$ & 1.000 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\gamma = 2$ & 1.000 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\delta = 0.5$ & 0.983 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\delta = 2$ & 0.989 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Post/Ang/Rnd/n4, Pre/Ang/Rnd/n4 \\
+$\varepsilon = 0.5$ & 1.000 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+$\varepsilon = 2$ & 0.989 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+accuracy-first & 0.983 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+latency-first & 0.989 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Post/Ang/Rnd/n4, Pre/Ang/Rnd/n4 \\
+resource-first & 1.000 & $<$0.001 & Pre/Ang/FC/n2, Mid/Amp/Rnd/n2, Post/Amp/Rnd/n2, Pre/Ang/Rnd/n4, Post/Ang/Rnd/n4 \\
+\midrule
+\multicolumn{4}{l}{\textit{Fashion-MNIST}} \\
+Equal weights & 1.000 & -- & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\alpha = 0.5$ & 0.977 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Mid/Ang/Rnd/n4, Mid/Ang/Lin/n4 \\
+$\alpha = 2$ & 0.983 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\beta = 0.5$ & 1.000 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\beta = 2$ & 0.994 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Mid/Ang/Rnd/n4 \\
+$\gamma = 0.5$ & 1.000 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\gamma = 2$ & 1.000 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\delta = 0.5$ & 0.977 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\delta = 2$ & 0.977 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Mid/Ang/Rnd/n4, Mid/Ang/Lin/n4 \\
+$\varepsilon = 0.5$ & 1.000 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+$\varepsilon = 2$ & 1.000 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+accuracy-first & 0.983 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+latency-first & 0.977 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Mid/Ang/Rnd/n4, Mid/Ang/Lin/n4 \\
+resource-first & 1.000 & $<$0.001 & Pre/Amp/Lin/n2, Mid/Amp/FC/n2, Post/Amp/FC/n2, Post/Ang/Rnd/n4, Post/Ang/Lin/n4 \\
+\bottomrule
+\end{tabular}
+\end{table*}

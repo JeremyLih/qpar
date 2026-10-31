@@ -1,0 +1,22 @@
+# Placeholder (protocol Section 14): add the year, volume, pages and DOI of the article once it is
+# published.
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the article below."
+type: software
+title: "Q-Par: hybrid CNN–QNN models under NISQ constraints (code, run records and analysis)"
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/JeremyLih/qpar"
+authors:
+  - family-names: Li
+    given-names: Jeremy
+    orcid: "https://orcid.org/0009-0001-6344-8131"
+preferred-citation:
+  type: article
+  title: "Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN–QNN Models under NISQ Constraints"
+  authors:
+    - family-names: Li
+      given-names: Jeremy
+      orcid: "https://orcid.org/0009-0001-6344-8131"
+  journal: "IEEE Access"
+  status: in-preparation

@@ -1,0 +1,21 @@
+{
+ "run_id": "mnist_middle_amplitude_fullyconnected_n4_tf0.2_s2",
+ "part": "depol0.01",
+ "p": 0.01,
+ "acc_depol": 0.103,
+ "seconds": 2.4014151160008623,
+ "environment": {
+  "python": "3.11.16",
+  "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "torch_threads": 1,
+  "omp_num_threads": "1",
+  "torch": "2.14.0+cpu",
+  "pennylane": "0.45.1",
+  "pennylane-lightning": "0.45.0",
+  "qiskit": "2.5.2",
+  "qiskit-aer": "0.17.2",
+  "qiskit-ibm-runtime": "0.50.0",
+  "numpy": "2.4.6"
+ }
+}

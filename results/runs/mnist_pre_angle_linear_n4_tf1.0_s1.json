@@ -1,0 +1,202 @@
+{
+ "run_id": "mnist_pre_angle_linear_n4_tf1.0_s1",
+ "config_id": "mnist_pre_angle_linear_n4_tf1.0",
+ "config": {
+  "kind": "hybrid",
+  "block": "M1",
+  "dataset": "mnist",
+  "placement": "pre",
+  "encoding": "angle",
+  "topology": "linear",
+  "n_qubits": 4,
+  "train_frac": 1.0
+ },
+ "seed": 1,
+ "train_size": 55000,
+ "epochs": [
+  {
+   "epoch": 1,
+   "train_loss": 0.2736889590634541,
+   "train_acc": 0.9178,
+   "val_acc": 0.9734,
+   "seconds": 260.326030006,
+   "train_seconds": 251.33363506699993
+  },
+  {
+   "epoch": 2,
+   "train_loss": 0.08265796361619776,
+   "train_acc": 0.9745818181818182,
+   "val_acc": 0.9802,
+   "seconds": 258.91214096399995,
+   "train_seconds": 249.91447122299996
+  },
+  {
+   "epoch": 3,
+   "train_loss": 0.05931303085352887,
+   "train_acc": 0.9821090909090909,
+   "val_acc": 0.981,
+   "seconds": 259.924519594,
+   "train_seconds": 250.93413109900007
+  },
+  {
+   "epoch": 4,
+   "train_loss": 0.04764889905616768,
+   "train_acc": 0.9850909090909091,
+   "val_acc": 0.9842,
+   "seconds": 258.91105573999994,
+   "train_seconds": 249.92843097100013
+  },
+  {
+   "epoch": 5,
+   "train_loss": 0.03918558338223533,
+   "train_acc": 0.9872545454545455,
+   "val_acc": 0.9814,
+   "seconds": 258.93709396400004,
+   "train_seconds": 249.83414159099993
+  },
+  {
+   "epoch": 6,
+   "train_loss": 0.03340114040750671,
+   "train_acc": 0.9893636363636363,
+   "val_acc": 0.9864,
+   "seconds": 258.66430435300003,
+   "train_seconds": 249.69857709500025
+  },
+  {
+   "epoch": 7,
+   "train_loss": 0.030204231616609137,
+   "train_acc": 0.9900727272727273,
+   "val_acc": 0.9872,
+   "seconds": 258.56180000300037,
+   "train_seconds": 249.59000398200033
+  },
+  {
+   "epoch": 8,
+   "train_loss": 0.024855545400895854,
+   "train_acc": 0.9918,
+   "val_acc": 0.989,
+   "seconds": 257.8494920600001,
+   "train_seconds": 248.88183875699997
+  },
+  {
+   "epoch": 9,
+   "train_loss": 0.022779274463551966,
+   "train_acc": 0.9925818181818182,
+   "val_acc": 0.9876,
+   "seconds": 258.5094382850002,
+   "train_seconds": 249.4704762219999
+  },
+  {
+   "epoch": 10,
+   "train_loss": 0.019415153355253012,
+   "train_acc": 0.9936363636363637,
+   "val_acc": 0.9872,
+   "seconds": 257.113961258,
+   "train_seconds": 247.949900565
+  },
+  {
+   "epoch": 11,
+   "train_loss": 0.01907923416139304,
+   "train_acc": 0.9936727272727273,
+   "val_acc": 0.988,
+   "seconds": 258.9699674620001,
+   "train_seconds": 249.9648937400002
+  },
+  {
+   "epoch": 12,
+   "train_loss": 0.016688046629523688,
+   "train_acc": 0.9941272727272727,
+   "val_acc": 0.9882,
+   "seconds": 258.75254293499984,
+   "train_seconds": 249.72777760999998
+  },
+  {
+   "epoch": 13,
+   "train_loss": 0.014430640121972696,
+   "train_acc": 0.9951636363636364,
+   "val_acc": 0.9886,
+   "seconds": 261.671274883,
+   "train_seconds": 252.7055728559999
+  },
+  {
+   "epoch": 14,
+   "train_loss": 0.012768773091719908,
+   "train_acc": 0.9954181818181819,
+   "val_acc": 0.9868,
+   "seconds": 260.5774242010002,
+   "train_seconds": 251.60154845200032
+  },
+  {
+   "epoch": 15,
+   "train_loss": 0.012566638817030682,
+   "train_acc": 0.9959272727272728,
+   "val_acc": 0.9886,
+   "seconds": 259.1798199959994,
+   "train_seconds": 250.03442568299943
+  }
+ ],
+ "best_epoch": 8,
+ "best_val_acc": 0.989,
+ "threshold": 0.95,
+ "epochs_to_threshold": 1,
+ "A": 0.9894,
+ "A_subset_noiseless": 0.9885,
+ "params_total": 19074,
+ "params_quantum": 36,
+ "params_classical": 19038,
+ "timings": {
+  "train_seconds": 3886.913115566,
+  "test_seconds": 20.076774348999606
+ },
+ "resumed_after_epochs": [],
+ "environment": {
+  "python": "3.11.16",
+  "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "torch_threads": 1,
+  "omp_num_threads": "1",
+  "torch": "2.14.0+cpu",
+  "pennylane": "0.45.1",
+  "pennylane-lightning": "0.45.0",
+  "qiskit": "2.5.2",
+  "qiskit-aer": "0.17.2",
+  "qiskit-ibm-runtime": "0.50.0",
+  "numpy": "2.4.6"
+ },
+ "G": 49,
+ "G_variational": 45,
+ "G_encoding": 4,
+ "gate_types": {
+  "CNOT": 9,
+  "RY": 16,
+  "RZ": 24
+ },
+ "simulator": "lightning.qubit",
+ "acc_noise_calibrated": 0.9875,
+ "twoq_transpiled": 9,
+ "depth_transpiled": 54,
+ "noise_backend": {
+  "name": "fake_aachen",
+  "num_qubits": 156,
+  "basis_gates": [
+   "cz",
+   "delay",
+   "id",
+   "if_else",
+   "measure",
+   "reset",
+   "rz",
+   "sx",
+   "x"
+  ],
+  "calibration_date": "2026-04-17 12:29:46+02:00"
+ },
+ "shots": 1024,
+ "delta_cal": 0.0010000000000000009,
+ "acc_depol": {
+  "0.001": 0.988,
+  "0.005": 0.9875,
+  "0.01": 0.988,
+  "0.02": 0.9875
+ }
+}

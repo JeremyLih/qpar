@@ -1,0 +1,42 @@
+[project]
+name = "qpar"
+version = "0.1.0"
+description = "Q-Par experiment pipeline: hybrid CNN-QNN models under NISQ constraints (simulation study)"
+requires-python = "==3.11.*"
+dependencies = [
+    "matplotlib==3.11.2",
+    "numpy==2.4.6",
+    "pandas==3.0.6",
+    "pennylane==0.45.1",
+    "pennylane-lightning==0.45.0",
+    "pyyaml==6.0.3",
+    "qiskit==2.5.2",
+    "qiskit-aer==0.17.2",
+    "qiskit-ibm-runtime==0.50.0",
+    "scipy==1.17.1",
+    "torch==2.14.0",
+    "torchvision==0.29.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+]
+
+# Linux (cloud workers) installs CPU-only torch wheels; macOS uses PyPI wheels.
+# Both come from the same uv.lock.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["uv_build>=0.11.17,<0.12.0"]
+build-backend = "uv_build"

@@ -1,0 +1,9 @@
+dataset,configurations,n,x,y,spearman_rho,p_value
+mnist,main+sweep,27,G,delta_cal_mean,0.3061304225628943,0.12042668751739515
+mnist,main+sweep,27,twoq_transpiled,delta_cal_mean,0.3116228123790211,0.11357857492833619
+mnist,main,18,G,delta_cal_mean,-0.22335361012650926,0.37297751382671906
+mnist,main,18,twoq_transpiled,delta_cal_mean,-0.20888280805225834,0.4055066734653465
+fashionmnist,main+sweep,27,G,delta_cal_mean,0.6188850546744411,0.0005785992248100366
+fashionmnist,main+sweep,27,twoq_transpiled,delta_cal_mean,0.6250617379494384,0.000490565153657055
+fashionmnist,main,18,G,delta_cal_mean,0.24227354131319367,0.3327339506025059
+fashionmnist,main,18,twoq_transpiled,delta_cal_mean,0.2657349704916791,0.2865176821185224

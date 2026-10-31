@@ -1,0 +1,81 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/qpar/scripts/run.py", line 90, in <module>
+    main()
+  File "/home/ubuntu/qpar/scripts/run.py", line 82, in main
+    train(cfg, args.seed, base, args.force)
+  File "/home/ubuntu/qpar/scripts/run.py", line 42, in train
+    record, state = train_run(cfg, seed, DatasetBundle(cfg["dataset"]), base, partial_path=partial,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/src/qpar/train.py", line 135, in train_run
+    logits = model(xb)
+             ^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/src/qpar/models.py", line 43, in forward
+    return self.fc2(F.relu(self.fc_after(self.block(self.features(x)))))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/src/qpar/quantum.py", line 153, in forward
+    return self.core(feature_map(self.encoding, self.proj(x)))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/src/qpar/quantum.py", line 134, in forward
+    out = self._training_qnode(features, self.weights.double())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/workflow/qnode.py", line 880, in __call__
+    return self._impl_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/workflow/qnode.py", line 853, in _impl_call
+    res = execute(
+          ^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/workflow/execution.py", line 206, in execute
+    tapes, user_post_processing = transform_program(tapes)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/transforms/core/compile_pipeline.py", line 1038, in __call__
+    return self.__call_tapes(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/transforms/core/compile_pipeline.py", line 934, in __call_tapes
+    new_tapes, fn = transform(tape, *targs, **tkwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/transforms/decompose.py", line 781, in decompose
+    new_ops = [
+              ^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/transforms/decompose.py", line 781, in <listcomp>
+    new_ops = [
+              ^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/transforms/decompose.py", line 896, in _operator_decomposition_gen
+    decomp = op.decomposition()
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/operation.py", line 1398, in decomposition
+    return self.compute_decomposition(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/ops/qubit/state_preparation.py", line 469, in compute_decomposition
+    return [MottonenStatePreparation(state, wires)]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/capture/capture_meta.py", line 31, in new_f
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/capture/capture_meta.py", line 98, in __call__
+    return type.__call__(cls, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/qpar/.venv/lib/python3.11/site-packages/pennylane/templates/state_preparations/mottonen.py", line 367, in __init__
+    raise ValueError(f"state_vector has to be of norm 1.0, got norm(s) {norms}")
+ValueError: state_vector has to be of norm 1.0, got norm(s) tensor([nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan,
+        nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan,
+        nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan],
+       dtype=torch.float64, grad_fn=<LinalgVectorNormBackward0>)
+done fashionmnist_middle_amplitude_fullyconnected_n4_tf1.0_s0: A=0.8886 best_epoch=12

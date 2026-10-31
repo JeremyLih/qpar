@@ -1,0 +1,29 @@
+\begin{table*}[!t]
+\centering
+\caption{Best hybrid per placement (highest mean best-validation accuracy at train\_frac = 1.0) against its parameter-matched classical model and the unmodified CNN: test accuracy $A$ (mean $\pm$ std over seeds), trainable parameters (total; core = quantum part of the hybrid or the classical map replacing it), and latency $D$ of the train\_frac = 1.0 configuration. Total parameter counts of cnn\_matched differ from their hybrids by at most 0.12\,\%.}
+\label{tab:baselines}
+\footnotesize
+\begin{tabular}{llrrrccc}
+\toprule
+ &  &  &  &  & \multicolumn{3}{c}{$A$ (\%) at train\_frac} \\
+\cmidrule(lr){6-8}
+Dataset & Model & Params & Core & $D$ (ms) & 0.2 & 0.5 & 1.0 \\
+\midrule
+MNIST & Pre hybrid (Angle/FC) & 19074 & 36 & 1.609 & 98.04 $\pm$ 0.16 & 98.63 $\pm$ 0.12 & 98.90 $\pm$ 0.13 \\
+ & Pre cnn\_matched (Angle) & 19069 & 31 & 0.073 & 97.97 $\pm$ 0.23 & 98.54 $\pm$ 0.21 & 98.85 $\pm$ 0.08 \\
+ & Middle hybrid (Amplitude/Random) & 8062 & 36 & 1.368 & 97.90 $\pm$ 0.17 & 98.45 $\pm$ 0.21 & 98.67 $\pm$ 0.12 \\
+ & Middle cnn\_matched (Amplitude) & 8072 & 46 & 0.068 & 92.44 $\pm$ 0.92 & 95.17 $\pm$ 0.74 & 96.92 $\pm$ 0.39 \\
+ & Post hybrid (Amplitude/Random) & 12262 & 36 & 1.413 & 94.01 $\pm$ 5.55 & 98.69 $\pm$ 0.13 & 98.93 $\pm$ 0.07 \\
+ & Post cnn\_matched (Amplitude) & 12272 & 46 & 0.073 & 94.51 $\pm$ 3.77 & 97.76 $\pm$ 0.23 & 98.31 $\pm$ 0.14 \\
+ & base\_cnn & 11978 & -- & 0.049 & 98.25 $\pm$ 0.09 & 98.67 $\pm$ 0.10 & 98.92 $\pm$ 0.04 \\
+\midrule
+Fashion-MNIST & Pre hybrid (Amplitude/Linear) & 28494 & 36 & 1.375 & 86.02 $\pm$ 0.52 & 87.98 $\pm$ 0.36 & 89.29 $\pm$ 0.33 \\
+ & Pre cnn\_matched (Amplitude) & 28504 & 46 & 0.083 & 85.62 $\pm$ 0.56 & 87.85 $\pm$ 0.13 & 89.13 $\pm$ 0.23 \\
+ & Middle hybrid (Amplitude/FC) & 8062 & 36 & 1.582 & 85.42 $\pm$ 0.32 & 87.69 $\pm$ 0.30 & 89.01 $\pm$ 0.16 \\
+ & Middle cnn\_matched (Amplitude) & 8072 & 46 & 0.069 & 81.09 $\pm$ 0.95 & 84.79 $\pm$ 0.41 & 86.31 $\pm$ 0.47 \\
+ & Post hybrid (Amplitude/FC) & 12262 & 36 & 1.592 & 84.38 $\pm$ 1.58 & 87.37 $\pm$ 0.42 & 89.09 $\pm$ 0.12 \\
+ & Post cnn\_matched (Amplitude) & 12272 & 46 & 0.073 & 78.63 $\pm$ 3.63 & 85.75 $\pm$ 0.37 & 87.63 $\pm$ 0.31 \\
+ & base\_cnn & 11978 & -- & 0.049 & 86.17 $\pm$ 0.38 & 88.17 $\pm$ 0.22 & 89.31 $\pm$ 0.21 \\
+\bottomrule
+\end{tabular}
+\end{table*}

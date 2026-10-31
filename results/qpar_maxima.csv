@@ -1,0 +1,3 @@
+dataset,Q_max,D_max,G_max
+mnist,8.0,4.046000074595213,1111.0
+fashionmnist,8.0,3.92808357719332,1174.0

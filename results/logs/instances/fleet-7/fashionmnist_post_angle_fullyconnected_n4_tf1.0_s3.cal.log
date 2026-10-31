@@ -1,0 +1,1 @@
+done fashionmnist_post_angle_fullyconnected_n4_tf1.0_s3 cal: {'part': 'cal', 'acc_noise_calibrated': 0.8865, 'twoq_transpiled': 36, 'depth_transpiled': 130, 'noise_backend': {'name': 'fake_aachen', 'num_qubits': 156, 'basis_gates': ['cz', 'delay', 'id', 'if_else', 'measure', 'reset', 'rz', 'sx', 'x'], 'calibration_date': '2026-04-17 12:29:46+02:00'}, 'shots': 1024}

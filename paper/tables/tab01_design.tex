@@ -1,0 +1,23 @@
+% Table 1 (new): design matrix, from Section IV-H and the run records (840 runs, 3,150 noise parts).
+\begin{table}[!t]
+\caption{Design matrix per dataset. The main grid is 3 placements $\times$ 2 encodings $\times$ 3 topologies $\times$ 3 training fractions = 54 configurations at $n = 4$; the baselines are \texttt{base\_cnn} $\times$ 3 training fractions and \texttt{cnn\_matched} $\times$ 6 $\times$ 3 = 21; the qubit sweep retrains the best configuration per placement at $n \in \{2, 6, 8\}$ (9). Every configuration has 5 seeds, which gives 168 configurations, 840 runs, and 3,150 noisy evaluations over both datasets; the classical baselines have no noisy evaluation.}
+\label{tab:design}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{3.5cm}rrr@{}}
+\toprule
+Block & Factors and levels & Config. & Runs & Noisy eval. \\
+\midrule
+Main grid & placement (Pre, Middle, Post) $\times$ encoding (angle, amplitude) $\times$ topology (Linear, FullyConnected, Random) $\times$ training fraction (0.2, 0.5, 1.0); $n = 4$ & 54 & 270 & 1,350 \\
+\addlinespace
+Baselines & \texttt{base\_cnn} $\times$ 3 training fractions & 3 & 15 & -- \\
+ & \texttt{cnn\_matched}: 3 placements $\times$ 2 encodings $\times$ 3 training fractions & 18 & 90 & -- \\
+\addlinespace
+Qubit sweep & best configuration per placement (by mean best-validation accuracy at training fraction 1.0) $\times$ $n \in \{2, 6, 8\}$ & 9 & 45 & 225 \\
+\midrule
+\multicolumn{2}{@{}l}{Per dataset} & 84 & 420 & 1,575 \\
+\multicolumn{2}{@{}l}{Both datasets} & 168 & 840 & 3,150 \\
+\bottomrule
+\end{tabular}
+\end{table}

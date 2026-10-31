@@ -1,0 +1,38 @@
+{
+ "config_id": "mnist_matched_middle_amplitude_tf0.2",
+ "config": {
+  "kind": "matched",
+  "dataset": "mnist",
+  "placement": "middle",
+  "encoding": "amplitude",
+  "n_qubits": 4,
+  "train_frac": 0.2
+ },
+ "A": 0.436,
+ "pass": true,
+ "train_loss": 2.0125808740962636,
+ "train_size": 11000,
+ "t_train_per_sample": 0.00014132336781818306,
+ "t_eval_per_sample": 5.211034499999414e-05,
+ "params_total": 8072,
+ "params_quantum": 0,
+ "G": null,
+ "G_variational": null,
+ "matched_map": "mlp_h2",
+ "params_matched_map": 46,
+ "simulator": null,
+ "environment": {
+  "python": "3.11.16",
+  "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "torch_threads": 1,
+  "omp_num_threads": "1",
+  "torch": "2.14.0+cpu",
+  "pennylane": "0.45.1",
+  "pennylane-lightning": "0.45.0",
+  "qiskit": "2.5.2",
+  "qiskit-aer": "0.17.2",
+  "qiskit-ibm-runtime": "0.50.0",
+  "numpy": "2.4.6"
+ }
+}

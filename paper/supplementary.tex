@@ -1,0 +1,53 @@
+\documentclass{ieeeaccess}
+% Supplementary Material for the Q-Par paper (main.tex): Tables S1-S4, in the IEEE Access template style.
+% Section, figure and table numbers of the paper are read from main.aux (package xr), so build main first:
+%   latexmk -pdf main.tex && latexmk -pdf supplementary.tex
+% main.tex cites these tables as plain "Table~S1".."Table~S4" (it must compile on its own), so keep this order.
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xr}
+\externaldocument{main}
+% implicit=false: \ref stays LaTeX's own, so references into main.pdf print the number without a dead link.
+\usepackage[hidelinks,implicit=false]{hyperref}
+\hypersetup{pdftitle={Supplementary Material: Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN-QNN Models under NISQ Constraints},
+  pdfauthor={Jeremy Li}}
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{-0.12em}{\includegraphics[height=0.82em]{figures/orcid.pdf}}}}
+\urlstyle{same}
+% Same fix as main.tex: Delta in caption math from Computer Modern, not from the class's T1 text font.
+\DeclareSymbolFont{upgreek}{OT1}{cmr}{m}{n}
+\DeclareMathSymbol{\Delta}{\mathalpha}{upgreek}{"01}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{document}
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2024.0429000}
+
+\title{Supplementary Material}
+\author{\uppercase{Jeremy Li}\,\orcid{0009-0001-6344-8131}}
+
+\address{St. Michaels University School, Victoria, BC V8P 4P5, Canada (e-mail: jeremyli.ava@gmail.com)}
+
+\markboth
+{J. Li: Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN--QNN Models}
+{J. Li: Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN--QNN Models}
+
+\corresp{Corresponding author: Jeremy Li (e-mail: jeremyli.ava@gmail.com).}
+
+\titlepgskip=-21pt
+
+\maketitle
+
+% The author's opening text ("Supplementary opening" in the Caption tab of QML Paper.md).
+\noindent This is the supplementary material for the paper ``Q-Par: A Resource-Aware Composite Metric for Comparing Hybrid CNN--QNN Models under NISQ Constraints.'' It contains the four tables referenced in the main text: Table~\ref{tab:rank_moves} lists the configurations whose rank moves by at least 10 places (Section~\ref{sec:res-rank}); Table~\ref{tab:sensitivity_supplement} repeats the sensitivity analysis with the qubit sweep included, where $Q$ varies (Section~\ref{sec:res-sens}); Table~\ref{tab:matched_stats} gives the paired tests of hybrid against matched models (Section~\ref{sec:res-base}); and Table~\ref{tab:full} is the full 54-configuration matrix of each dataset (Section~\ref{sec:res-rank}).
+
+All tables are computed from the same run records as the article and can be regenerated from the code at \url{https://github.com/JeremyLih/qpar}.\EOD
+
+\input{tables/tabS1_rank_moves}
+\input{tables/tabS2_sensitivity_supplement}
+\input{tables/tabS3_matched}
+\input{tables/tabS4_full_matrix}
+
+\end{document}

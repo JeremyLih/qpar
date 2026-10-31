@@ -1,0 +1,27 @@
+{
+ "time": 1790609688.885288,
+ "shard_version": 3,
+ "workers": 30,
+ "done": [
+  "mnist_post_amplitude_random_n8_tf1.0_s2:depol0.02",
+  "mnist_post_amplitude_random_n8_tf1.0_s3:depol0.01",
+  "mnist_post_amplitude_random_n8_tf1.0_s3:depol0.02",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.001",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.005",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.01",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.02"
+ ],
+ "started": [
+  "mnist_post_amplitude_random_n8_tf1.0_s2:depol0.02",
+  "mnist_post_amplitude_random_n8_tf1.0_s3:depol0.01",
+  "mnist_post_amplitude_random_n8_tf1.0_s3:depol0.02",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.001",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.005",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.01",
+  "mnist_post_amplitude_random_n8_tf1.0_s4:depol0.02"
+ ],
+ "failed": [],
+ "yielded": [],
+ "cancelled": [],
+ "running": {}
+}

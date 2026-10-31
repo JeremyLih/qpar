@@ -1,0 +1,4 @@
+checkpoints/mnist_post_amplitude_random_n8_tf1.0_s3.pt
+checkpoints/mnist_post_amplitude_random_n8_tf1.0_s4.pt
+runs/mnist_post_amplitude_random_n8_tf1.0_s3.json
+runs/mnist_post_amplitude_random_n8_tf1.0_s4.json

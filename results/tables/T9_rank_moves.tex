@@ -1,0 +1,55 @@
+\begin{table*}[!t]
+\centering
+\caption{Configurations whose rank among the 54 main-matrix configurations moves by at least 10 places between the ranking by accuracy $A$ and by equal-weight Q-Par (the numbers label the rank--rank scatter; positive = ranked higher by Q-Par). Driver: the cost term with the largest mean advantage in log Q-Par over the configurations the configuration passed (rising) or that passed it (falling).}
+\label{tab:rank_moves}
+\scriptsize
+\begin{tabular}{rlrrrlrlrrrl}
+\toprule
+\multicolumn{6}{c}{MNIST (Kendall $\tau$ = -0.06)} & \multicolumn{6}{c}{Fashion-MNIST (Kendall $\tau$ = -0.05)} \\
+\cmidrule(lr){1-6} \cmidrule(lr){7-12}
+\# & Configuration & $A$ & Q-Par & Move & Driver & \# & Configuration & $A$ & Q-Par & Move & Driver \\
+\midrule
+1 & Post/Ang/Lin/0.2 & 54 & 18 & +36 & $G$ & 1 & Mid/Ang/Lin/0.2 & 50 & 10 & +40 & $G$ \\
+2 & Post/Ang/Rnd/0.2 & 53 & 17 & +36 & $G$ & 2 & Mid/Ang/Rnd/0.2 & 49 & 12 & +37 & $G$ \\
+3 & Mid/Ang/Lin/0.5 & 44 & 10 & +34 & $G$ & 3 & Post/Ang/Lin/0.2 & 54 & 18 & +36 & $G$ \\
+4 & Mid/Ang/Lin/0.2 & 48 & 15 & +33 & $G$ & 4 & Mid/Ang/Lin/0.5 & 41 & 6 & +35 & $G$ \\
+5 & Mid/Ang/Rnd/0.2 & 46 & 16 & +30 & $G$ & 5 & Post/Ang/Rnd/0.2 & 52 & 17 & +35 & $G$ \\
+6 & Post/Ang/Lin/0.5 & 39 & 9 & +30 & $G$ & 6 & Mid/Ang/Rnd/0.5 & 32 & 5 & +27 & $G$ \\
+7 & Mid/Ang/Rnd/0.5 & 42 & 14 & +28 & $G$ & 7 & Mid/Ang/Rnd/1.0 & 30 & 3 & +27 & $G$ \\
+8 & Post/Ang/Rnd/0.5 & 41 & 13 & +28 & $G$ & 8 & Post/Ang/FC/0.2 & 53 & 27 & +26 & $G$ \\
+9 & Mid/Ang/Lin/1.0 & 38 & 11 & +27 & $G$ & 9 & Pre/Ang/Rnd/0.2 & 39 & 14 & +25 & $G$ \\
+10 & Post/Ang/FC/0.2 & 52 & 27 & +25 & $G$ & 10 & Mid/Ang/Lin/1.0 & 29 & 4 & +25 & $G$ \\
+11 & Mid/Ang/FC/0.2 & 47 & 24 & +23 & $G$ & 11 & Mid/Ang/FC/0.2 & 51 & 26 & +25 & $G$ \\
+12 & Mid/Ang/Rnd/1.0 & 31 & 8 & +23 & $G$ & 12 & Post/Ang/Lin/0.5 & 31 & 7 & +24 & $G$ \\
+13 & Pre/Ang/Rnd/0.2 & 28 & 7 & +21 & $G$ & 13 & Post/Ang/Rnd/0.5 & 33 & 9 & +24 & $G$ \\
+14 & Mid/Ang/FC/0.5 & 43 & 23 & +20 & $G$ & 14 & Pre/Ang/Lin/0.2 & 35 & 15 & +20 & $G$ \\
+15 & Post/Ang/FC/0.5 & 45 & 25 & +20 & $G$ & 15 & Post/Ang/FC/0.5 & 43 & 24 & +19 & $G$ \\
+16 & Post/Ang/Lin/1.0 & 23 & 4 & +19 & $G$ & 16 & Post/Ang/Lin/1.0 & 19 & 2 & +17 & $G$ \\
+17 & Pre/Ang/Lin/0.2 & 30 & 12 & +18 & $G$ & 17 & Pre/Ang/FC/0.2 & 38 & 23 & +15 & $G$ \\
+18 & Post/Ang/Rnd/1.0 & 19 & 2 & +17 & $G$ & 18 & Pre/Ang/Rnd/0.5 & 23 & 11 & +12 & $G$ \\
+19 & Mid/Ang/FC/1.0 & 33 & 19 & +14 & $G$ & 19 & Mid/Ang/FC/0.5 & 34 & 22 & +12 & $G$ \\
+20 & Pre/Ang/Rnd/0.5 & 18 & 5 & +13 & $G$ & 20 & Post/Ang/Rnd/1.0 & 13 & 1 & +12 & $G$ \\
+21 & Mid/Amp/Rnd/0.5 & 20 & 31 & -11 & $G$ & 21 & Pre/Ang/Lin/0.5 & 24 & 13 & +11 & $G$ \\
+22 & Pre/Amp/FC/0.2 & 36 & 48 & -12 & $G$ & 22 & Post/Amp/Lin/0.5 & 26 & 36 & -10 & $G$ \\
+23 & Mid/Amp/Lin/0.5 & 25 & 38 & -13 & $G$ & 23 & Pre/Ang/FC/0.5 & 14 & 25 & -11 & $D$ \\
+24 & Mid/Amp/Rnd/1.0 & 15 & 28 & -13 & $G$ & 24 & Mid/Amp/Lin/0.5 & 20 & 31 & -11 & $G$ \\
+25 & Mid/Amp/FC/0.2 & 35 & 50 & -15 & $G$ & 25 & Mid/Amp/Rnd/0.5 & 21 & 33 & -12 & $G$ \\
+26 & Pre/Ang/FC/1.0 & 5 & 22 & -17 & $D$ & 26 & Post/Amp/Rnd/0.5 & 22 & 35 & -13 & $G$ \\
+27 & Pre/Amp/Rnd/1.0 & 8 & 29 & -21 & $G$ & 27 & Pre/Amp/FC/0.2 & 40 & 54 & -14 & $G$ \\
+28 & Mid/Amp/Lin/1.0 & 9 & 32 & -23 & $G$ & 28 & Mid/Amp/Lin/1.0 & 11 & 29 & -18 & $G$ \\
+29 & Pre/Amp/Lin/1.0 & 11 & 35 & -24 & $G$ & 29 & Mid/Amp/Rnd/1.0 & 8 & 28 & -20 & $G$ \\
+30 & Post/Amp/Lin/0.5 & 17 & 41 & -24 & $G$ & 30 & Pre/Amp/Lin/0.5 & 15 & 38 & -23 & $G$ \\
+31 & Post/Amp/Rnd/0.5 & 13 & 42 & -29 & $G$ & 31 & Post/Amp/FC/0.5 & 27 & 50 & -23 & $G$ \\
+32 & Pre/Amp/FC/0.5 & 21 & 51 & -30 & $G$ & 32 & Mid/Amp/FC/0.5 & 25 & 49 & -24 & $G$ \\
+33 & Mid/Amp/FC/0.5 & 22 & 53 & -31 & $G$ & 33 & Pre/Amp/Rnd/0.5 & 18 & 44 & -26 & $G$ \\
+34 & Post/Amp/FC/0.5 & 14 & 49 & -35 & $G$ & 34 & Post/Amp/Lin/1.0 & 4 & 30 & -26 & $G$ \\
+35 & Mid/Amp/FC/1.0 & 10 & 46 & -36 & $G$ & 35 & Post/Amp/Rnd/1.0 & 3 & 32 & -29 & $G$ \\
+36 & Post/Amp/Lin/1.0 & 6 & 43 & -37 & $G$ & 36 & Pre/Amp/Lin/1.0 & 2 & 34 & -32 & $G$ \\
+37 & Post/Amp/Rnd/1.0 & 3 & 40 & -37 & $G$ & 37 & Pre/Amp/Rnd/1.0 & 6 & 41 & -35 & $G$ \\
+38 & Pre/Amp/FC/1.0 & 7 & 52 & -45 & $G$ & 38 & Pre/Amp/FC/0.5 & 16 & 53 & -37 & $G$ \\
+39 & Post/Amp/FC/1.0 & 1 & 47 & -46 & $G$ & 39 & Mid/Amp/FC/1.0 & 7 & 46 & -39 & $G$ \\
+ &  &  &  &  &  & 40 & Post/Amp/FC/1.0 & 5 & 47 & -42 & $G$ \\
+ &  &  &  &  &  & 41 & Pre/Amp/FC/1.0 & 1 & 48 & -47 & $G$ \\
+\bottomrule
+\end{tabular}
+\end{table*}

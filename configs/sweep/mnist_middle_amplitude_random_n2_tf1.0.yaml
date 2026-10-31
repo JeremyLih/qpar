@@ -1,0 +1,2 @@
+{kind: hybrid, block: S, dataset: mnist, placement: middle, encoding: amplitude, topology: random,
+  n_qubits: 2, train_frac: 1.0}

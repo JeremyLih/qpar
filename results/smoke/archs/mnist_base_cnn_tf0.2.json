@@ -1,0 +1,35 @@
+{
+ "config_id": "mnist_base_cnn_tf0.2",
+ "config": {
+  "kind": "base_cnn",
+  "dataset": "mnist",
+  "train_frac": 0.2
+ },
+ "A": 0.948,
+ "pass": true,
+ "train_loss": 0.7297354833212766,
+ "train_size": 11000,
+ "t_train_per_sample": 0.0001417392709999955,
+ "t_eval_per_sample": 5.0383328000009445e-05,
+ "params_total": 11978,
+ "params_quantum": 0,
+ "G": null,
+ "G_variational": null,
+ "matched_map": null,
+ "params_matched_map": null,
+ "simulator": null,
+ "environment": {
+  "python": "3.11.16",
+  "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "torch_threads": 1,
+  "omp_num_threads": "1",
+  "torch": "2.14.0+cpu",
+  "pennylane": "0.45.1",
+  "pennylane-lightning": "0.45.0",
+  "qiskit": "2.5.2",
+  "qiskit-aer": "0.17.2",
+  "qiskit-ibm-runtime": "0.50.0",
+  "numpy": "2.4.6"
+ }
+}

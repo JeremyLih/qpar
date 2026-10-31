@@ -1,0 +1,6 @@
+tf=0.2 epoch 1: val acc 0.2010
+tf=0.2 epoch 2: val acc 0.2894
+tf=0.2 epoch 3: val acc 0.3074
+tf=0.2 epoch 4: val acc 0.3642
+tf=0.2 epoch 5: val acc 0.4116
+tf=0.2 epoch 6: val acc 0.4090

@@ -1,0 +1,40 @@
+{
+ "criterion": "mean best-validation accuracy over seeds, tf = 1.0 (decision 6a)",
+ "scores": {
+  "middle/amplitude/fullyconnected": 0.98816,
+  "middle/amplitude/linear": 0.98844,
+  "middle/amplitude/random": 0.9892,
+  "middle/angle/fullyconnected": 0.97892,
+  "middle/angle/linear": 0.9756,
+  "middle/angle/random": 0.97972,
+  "post/amplitude/fullyconnected": 0.98968,
+  "post/amplitude/linear": 0.98904,
+  "post/amplitude/random": 0.99024,
+  "post/angle/fullyconnected": 0.98544,
+  "post/angle/linear": 0.9862,
+  "post/angle/random": 0.98668,
+  "pre/amplitude/fullyconnected": 0.98816,
+  "pre/amplitude/linear": 0.98816,
+  "pre/amplitude/random": 0.98828,
+  "pre/angle/fullyconnected": 0.9902,
+  "pre/angle/linear": 0.98972,
+  "pre/angle/random": 0.98956
+ },
+ "selection": {
+  "pre": {
+   "encoding": "angle",
+   "topology": "fullyconnected",
+   "mean_best_val_acc": 0.9902
+  },
+  "middle": {
+   "encoding": "amplitude",
+   "topology": "random",
+   "mean_best_val_acc": 0.9892
+  },
+  "post": {
+   "encoding": "amplitude",
+   "topology": "random",
+   "mean_best_val_acc": 0.99024
+  }
+ }
+}

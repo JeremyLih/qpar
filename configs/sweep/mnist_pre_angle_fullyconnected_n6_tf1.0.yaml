@@ -1,0 +1,2 @@
+{kind: hybrid, block: S, dataset: mnist, placement: pre, encoding: angle, topology: fullyconnected,
+  n_qubits: 6, train_frac: 1.0}

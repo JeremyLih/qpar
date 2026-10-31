@@ -1,0 +1,32 @@
+# Shared defaults. Protocol Section 5 (training), 6 (evaluation), 7 (latency).
+# Every run = this file + one config file (matrix/, baselines/, sweep/) + a seed.
+# Section 3 data constants live in src/qpar/data.py; L = 3 layers in src/qpar/quantum.py.
+
+training:
+  optimizer: adam
+  lr: 1.0e-3
+  betas: [0.9, 0.999]
+  weight_decay: 0.0
+  batch_size: 64
+  epochs: 15
+  threads: 1                  # OMP_NUM_THREADS, torch and Aer threads per worker; one worker per
+                              # physical core (decision 3c; the protocol's 2 per worker left one idle)
+  threshold:                  # epochs_to_threshold (validation accuracy)
+    mnist: 0.95
+    fashionmnist: 0.80
+
+seeds: [0, 1, 2, 3, 4]
+
+noise:
+  backend: FakeAachen         # newest Heron-class fake backend installed (DECISIONS.md §4)
+  shots: 1024
+  optimization_level: 1
+  seed_transpiler: 0
+  seed_simulator: 0
+  depolarizing_p: [0.001, 0.005, 0.01, 0.02]
+  two_qubit_factor: 10        # DepolarizingChannel(10·p) on both qubits after two-qubit gates
+                              # 6.3 simulator: Aer density matrix, exact (decision 3c)
+
+latency:
+  warmup: 20
+  samples: 200

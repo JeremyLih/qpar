@@ -1,0 +1,2 @@
+{kind: matched, block: B2, dataset: fashionmnist, placement: post, encoding: amplitude,
+  n_qubits: 4, train_frac: 1.0}

@@ -1,0 +1,28 @@
+# Qubit-sweep configurations (n = 2, 6, 8; train_frac = 1.0; both datasets): gate counts (appendix).
+# Source: code/results/summary.csv, rows kind = hybrid with n_qubits in {2, 6, 8}; columns G, twoq_transpiled.
+# G: gates of the quantum block after decomposition to {RX, RY, RZ, CNOT}, encoding gates included
+#   (Rot = 3 gates; amplitude encoding counted at its full Möttönen structure).
+# 2Q_transpiled: two-qubit gates after transpilation to FakeAachen (qiskit-ibm-runtime 0.50.0, IBM Heron r3,
+#   156 qubits, calibration 2026-04-17), optimization_level 1, seed_transpiler 0; one transpilation per architecture.
+# The n = 4 point of each sweep line is the corresponding main-grid configuration (not listed here).
+
+dataset        n  placement  encoding   topology           G  2Q_transpiled
+-------------  -  ---------  ---------  --------------  ----  -------------
+MNIST          2  Pre        angle      FullyConnected    23              3
+MNIST          6  Pre        angle      FullyConnected   105            138
+MNIST          8  Pre        angle      FullyConnected   164            294
+MNIST          2  Middle     amplitude  Random            31              7
+MNIST          6  Middle     amplitude  Random           319            322
+MNIST          8  Middle     amplitude  Random          1111           1345
+MNIST          2  Post       amplitude  Random            31              7
+MNIST          6  Post       amplitude  Random           319            322
+MNIST          8  Post       amplitude  Random          1111           1345
+Fashion-MNIST  2  Pre        amplitude  Linear            31              7
+Fashion-MNIST  6  Pre        amplitude  Linear           319            322
+Fashion-MNIST  8  Pre        amplitude  Linear          1111           1330
+Fashion-MNIST  2  Middle     amplitude  FullyConnected    31              7
+Fashion-MNIST  6  Middle     amplitude  FullyConnected   349            439
+Fashion-MNIST  8  Middle     amplitude  FullyConnected  1174           1624
+Fashion-MNIST  2  Post       amplitude  FullyConnected    31              7
+Fashion-MNIST  6  Post       amplitude  FullyConnected   349            439
+Fashion-MNIST  8  Post       amplitude  FullyConnected  1174           1624

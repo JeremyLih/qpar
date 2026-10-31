@@ -1,0 +1,3 @@
+# Keep this run record byte for byte: Python's csv module wrote it with CRLF line endings, which a
+# core.autocrlf setting would otherwise convert on commit.
+results/latency.csv -text

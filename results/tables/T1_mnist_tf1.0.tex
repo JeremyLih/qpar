@@ -1,0 +1,34 @@
+\begin{table*}[!t]
+\centering
+\caption{MNIST, train\_frac = 1.0: noiseless test accuracy $A$ (mean $\pm$ std over 5 seeds), $\sigma_a$, gate count $G$, latency $D$ (median, seed-0 checkpoint), equal-weight Q-Par, and ranks among the 54 main-matrix configurations of the dataset. Normalization over all hybrid configurations of the dataset (main matrix and qubit sweep): $Q_{\max} = 8$, $D_{\max} = 4.046$~ms, $G_{\max} = 1111$.}
+\label{tab:mnist_tf1}
+\footnotesize
+\begin{tabular}{lllrrrrrrr}
+\toprule
+ &  &  &  &  &  &  &  & \multicolumn{2}{c}{Rank} \\
+\cmidrule(lr){9-10}
+Placement & Encoding & Topology & $A$ (\%) & $\sigma_a$ (pp) & $G$ & $D$ (ms) & Q-Par & Q-Par & $A$ \\
+\midrule
+Pre & Angle & Linear & 98.91 $\pm$ 0.09 & 0.09 & 49 & 1.342 & 135 & 3 & 4 \\
+ & Angle & FC & 98.90 $\pm$ 0.13 & 0.13 & 58 & 1.609 & 95.2 & 22 & 5 \\
+ & Angle & Random & 98.94 $\pm$ 0.08 & 0.08 & 49 & 1.337 & 136 & 1 & 2 \\
+ & Amplitude & Linear & 98.76 $\pm$ 0.11 & 0.11 & 103 & 1.395 & 61.7 & 35 & 11 \\
+ & Amplitude & FC & 98.85 $\pm$ 0.05 & 0.05 & 112 & 1.662 & 47.7 & 52 & 7 \\
+ & Amplitude & Random & 98.82 $\pm$ 0.10 & 0.10 & 103 & 1.371 & 62.9 & 29 & 8 \\
+\midrule
+Middle & Angle & Linear & 97.56 $\pm$ 0.30 & 0.30 & 49 & 1.353 & 132 & 11 & 38 \\
+ & Angle & FC & 97.80 $\pm$ 0.20 & 0.20 & 58 & 1.578 & 95.9 & 19 & 33 \\
+ & Angle & Random & 97.91 $\pm$ 0.06 & 0.06 & 49 & 1.337 & 134 & 8 & 31 \\
+ & Amplitude & Linear & 98.77 $\pm$ 0.11 & 0.11 & 103 & 1.391 & 61.9 & 32 & 9 \\
+ & Amplitude & FC & 98.77 $\pm$ 0.15 & 0.15 & 112 & 1.636 & 48.4 & 46 & 10 \\
+ & Amplitude & Random & 98.67 $\pm$ 0.12 & 0.12 & 103 & 1.368 & 62.9 & 28 & 15 \\
+\midrule
+Post & Angle & Linear & 98.39 $\pm$ 0.22 & 0.22 & 49 & 1.333 & 135 & 4 & 23 \\
+ & Angle & FC & 98.38 $\pm$ 0.18 & 0.18 & 58 & 1.754 & 86.8 & 26 & 24 \\
+ & Angle & Random & 98.56 $\pm$ 0.12 & 0.12 & 49 & 1.331 & 136 & 2 & 19 \\
+ & Amplitude & Linear & 98.86 $\pm$ 0.09 & 0.09 & 103 & 1.501 & 57.5 & 43 & 6 \\
+ & Amplitude & FC & 98.97 $\pm$ 0.10 & 0.10 & 112 & 1.643 & 48.3 & 47 & 1 \\
+ & Amplitude & Random & 98.93 $\pm$ 0.07 & 0.07 & 103 & 1.413 & 61.1 & 40 & 3 \\
+\bottomrule
+\end{tabular}
+\end{table*}

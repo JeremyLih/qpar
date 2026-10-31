@@ -1,0 +1,128 @@
+{
+ "instance_type": {
+  "name": "gpu_1x_a10",
+  "vcpus": 30,
+  "usd_per_hour": 1.29
+ },
+ "cores_per_instance": 30,
+ "target_ratio": 1.5,
+ "speculative_instances": 3,
+ "chosen": {
+  "instances": 8,
+  "workers": 240,
+  "wall_hours": 22.79843892115611,
+  "instance_hours": 58.55310808036622,
+  "usd": 75.53350942367243,
+  "ratio_to_floor": 1.0
+ },
+ "scenarios": {
+  "amplitude": {
+   "floor_hours": 22.498438921156108,
+   "fleets": [
+    {
+     "instances": 3,
+     "workers": 90,
+     "wall_hours": 32.53635906663611,
+     "instance_hours": 96.04325190128064,
+     "usd": 123.89579495265203,
+     "ratio_to_floor": 1.4328264809663338
+    },
+    {
+     "instances": 4,
+     "workers": 120,
+     "wall_hours": 23.55730376081195,
+     "instance_hours": 66.37039344494204,
+     "usd": 85.61780754397523,
+     "ratio_to_floor": 1.033729666414422
+    },
+    {
+     "instances": 5,
+     "workers": 150,
+     "wall_hours": 22.79843892115611,
+     "instance_hours": 60.93601280134208,
+     "usd": 78.6074565137313,
+     "ratio_to_floor": 1.0
+    },
+    {
+     "instances": 6,
+     "workers": 180,
+     "wall_hours": 22.79843892115611,
+     "instance_hours": 59.57680260299445,
+     "usd": 76.85407535786284,
+     "ratio_to_floor": 1.0
+    },
+    {
+     "instances": 7,
+     "workers": 210,
+     "wall_hours": 22.79843892115611,
+     "instance_hours": 59.71896022033458,
+     "usd": 77.03745868423161,
+     "ratio_to_floor": 1.0
+    },
+    {
+     "instances": 8,
+     "workers": 240,
+     "wall_hours": 22.79843892115611,
+     "instance_hours": 58.55310808036622,
+     "usd": 75.53350942367243,
+     "ratio_to_floor": 1.0
+    }
+   ]
+  },
+  "angle": {
+   "floor_hours": 5.373066534678335,
+   "fleets": [
+    {
+     "instances": 3,
+     "workers": 90,
+     "wall_hours": 30.143160267869156,
+     "instance_hours": 90.42593367897544,
+     "usd": 116.64945444587832,
+     "ratio_to_floor": 5.5542137949080415
+    },
+    {
+     "instances": 4,
+     "workers": 120,
+     "wall_hours": 11.438740515128327,
+     "instance_hours": 45.749479836843314,
+     "usd": 59.01682898952787,
+     "ratio_to_floor": 2.0730695298927952
+    },
+    {
+     "instances": 5,
+     "workers": 150,
+     "wall_hours": 7.901583005308334,
+     "instance_hours": 38.06225271250568,
+     "usd": 49.10030599913233,
+     "ratio_to_floor": 1.4147569095314416
+    },
+    {
+     "instances": 6,
+     "workers": 180,
+     "wall_hours": 6.757740787026946,
+     "instance_hours": 35.498536366428446,
+     "usd": 45.793111912692694,
+     "ratio_to_floor": 1.201872477354972
+    },
+    {
+     "instances": 7,
+     "workers": 210,
+     "wall_hours": 6.647242975475001,
+     "instance_hours": 36.088351012474945,
+     "usd": 46.55397280609268,
+     "ratio_to_floor": 1.1813073473982183
+    },
+    {
+     "instances": 8,
+     "workers": 240,
+     "wall_hours": 5.673066534678335,
+     "instance_hours": 34.00595499047919,
+     "usd": 43.86768193771815,
+     "ratio_to_floor": 1.0
+    }
+   ]
+  }
+ },
+ "prior_spend_usd": 0.7353050643165907,
+ "projected_total_usd": 76.26881448798902
+}

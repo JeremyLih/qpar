@@ -1,0 +1,1 @@
+done mnist_middle_angle_random_n4_tf0.5_s3 cal: {'part': 'cal', 'acc_noise_calibrated': 0.971, 'twoq_transpiled': 9, 'depth_transpiled': 46, 'noise_backend': {'name': 'fake_aachen', 'num_qubits': 156, 'basis_gates': ['cz', 'delay', 'id', 'if_else', 'measure', 'reset', 'rz', 'sx', 'x'], 'calibration_date': '2026-04-17 12:29:46+02:00'}, 'shots': 1024}

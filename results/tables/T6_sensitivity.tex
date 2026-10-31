@@ -1,0 +1,43 @@
+\begin{table*}[!t]
+\centering
+\caption{Sensitivity of the Q-Par ranking of the 54 main-matrix configurations to the exponents: one exponent at 0.5 or 2 with the others at 1, and three presets (accuracy-first $\alpha = 2$, latency-first $\delta = 2$, resource-first $\gamma = \varepsilon = 2$). Kendall $\tau$ against the equal-weight ranking and the five top-ranked configurations (placement/encoding/topology/train\_frac). The exponent $\gamma$ is inert here by construction: every main-matrix configuration has $n = 4$ qubits, so $Q/Q_{\max}$ is the same for all 54 and the $\gamma$ settings reproduce the equal-weight ranking ($\tau = 1$; resource-first ranks as $\varepsilon = 2$). Table~\ref{tab:sensitivity_supplement} repeats the analysis over the train\_frac = 1.0 configurations including the qubit sweep, where $Q$ varies.}
+\label{tab:sensitivity}
+\scriptsize
+\begin{tabular}{lrrl}
+\toprule
+Setting & Kendall $\tau$ & $p$ & Top 5 (rank 1 first) \\
+\midrule
+\multicolumn{4}{l}{\textit{MNIST}} \\
+Equal weights & 1.000 & -- & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+$\alpha = 0.5$ & 0.968 & $<$0.001 & Post/Ang/Rnd/1.0, Pre/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Pre/Ang/Lin/1.0 \\
+$\alpha = 2$ & 0.948 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Post/Ang/Lin/1.0 \\
+$\beta = 0.5$ & 0.994 & $<$0.001 & Post/Ang/Rnd/1.0, Pre/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Pre/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+$\beta = 2$ & 0.959 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Post/Ang/Lin/1.0 \\
+$\gamma = 0.5$ & 1.000 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+$\gamma = 2$ & 1.000 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+$\delta = 0.5$ & 0.947 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Post/Ang/Lin/1.0 \\
+$\delta = 2$ & 0.969 & $<$0.001 & Post/Ang/Rnd/1.0, Pre/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Pre/Ang/Lin/1.0 \\
+$\varepsilon = 0.5$ & 0.978 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+$\varepsilon = 2$ & 1.000 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+accuracy-first & 0.948 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Post/Ang/Lin/1.0 \\
+latency-first & 0.969 & $<$0.001 & Post/Ang/Rnd/1.0, Pre/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5, Pre/Ang/Lin/1.0 \\
+resource-first & 1.000 & $<$0.001 & Pre/Ang/Rnd/1.0, Post/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Post/Ang/Lin/1.0, Pre/Ang/Rnd/0.5 \\
+\midrule
+\multicolumn{4}{l}{\textit{Fashion-MNIST}} \\
+Equal weights & 1.000 & -- & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\alpha = 0.5$ & 0.966 & $<$0.001 & Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\alpha = 2$ & 0.954 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Pre/Ang/Lin/1.0 \\
+$\beta = 0.5$ & 0.999 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\beta = 2$ & 0.992 & $<$0.001 & Post/Ang/Rnd/1.0, Mid/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\gamma = 0.5$ & 1.000 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\gamma = 2$ & 1.000 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\delta = 0.5$ & 0.951 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Pre/Ang/Lin/1.0, Mid/Ang/Lin/1.0 \\
+$\delta = 2$ & 0.958 & $<$0.001 & Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\varepsilon = 0.5$ & 0.980 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+$\varepsilon = 2$ & 1.000 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+accuracy-first & 0.954 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Pre/Ang/Lin/1.0 \\
+latency-first & 0.958 & $<$0.001 & Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+resource-first & 1.000 & $<$0.001 & Post/Ang/Rnd/1.0, Post/Ang/Lin/1.0, Mid/Ang/Rnd/1.0, Mid/Ang/Lin/1.0, Mid/Ang/Rnd/0.5 \\
+\bottomrule
+\end{tabular}
+\end{table*}
