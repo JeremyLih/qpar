@@ -756,3 +756,10 @@ run needs every run, every noise part and `results/latency.csv`, and refuses oth
   `default.mixed`, analytic, broadcast over chunks of 100 images; it ran on Qiskit Aer
   `method="density_matrix"` with exact expectation values (decision 3c), 250 images per Aer job, and
   `default.mixed` is only the reference in `tests/test_evaluate.py`.
+
+## 15. Submission (2026-11-01)
+
+Submitted to IEEE Access as a Regular Manuscript on 2026-11-01.
+Manuscript ID: Access-2026-56645. Submission ID: 5cd0c511-4e3c-437b-88f7-69d77d10b179.
+Submitted files: main.pdf (18 pp), main_latex.zip, supplementary.pdf (4 pp), fig3_graphical_abstract.png + caption, cover_letter.pdf.
+Repository tag: v1.0-submitted. APC US$2,160 payable only on acceptance.
